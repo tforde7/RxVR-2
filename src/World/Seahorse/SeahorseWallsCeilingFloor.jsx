@@ -39,7 +39,7 @@ const SeahorseWallsCeilingFloor = () => {
         {/* Floor */}
         <mesh
           material={materials.floorMaterial}
-          position={[0, 0.01, 0]}
+          position={[0, -0.01, 0]}
           rotation-x={-Math.PI / 2}
         >
           <planeGeometry args={[35, 41]}></planeGeometry>
