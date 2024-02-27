@@ -6,7 +6,7 @@ const Ground = () => {
   const GROUND_LENGTH = 500;
   const GROUND_WIDTH = 500;
 
-  const textureRepeat = 100;
+  const textureRepeat = 200;
 
   const groundColorTexture = useLoader(
     THREE.TextureLoader,
