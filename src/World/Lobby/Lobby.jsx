@@ -3,6 +3,7 @@ import { useLoader } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import { useControls } from "leva";
 import * as THREE from "three";
+import { FrontWall } from "./FrontWall";
 // import CouchReception1 from "../CouchReception1";
 // import Plant1 from "../Plant1";
 // import Plant3 from "../Plant3";
@@ -108,6 +109,16 @@ const Lobby = () => {
           position={[lobbyPosition.x, lobbyPosition.y, lobbyPosition.z]}
           rotation-y={rotation}
         >
+          {/* Upper floors */}
+          <mesh position-y={3.6}>
+            <boxGeometry args={[22, 3.6, 20.5]}></boxGeometry>
+            <meshStandardMaterial></meshStandardMaterial>
+          </mesh>
+          <mesh>
+            <boxGeometry args={[22, 3.6, 20.5]}></boxGeometry>
+            <meshStandardMaterial></meshStandardMaterial>
+          </mesh>
+          {/* Ground floor */}
           <group position-y={-3.6}>
             {/* left */}
             <mesh position={[0, 0, -10.25]} material={wallMaterial}>
@@ -123,7 +134,7 @@ const Lobby = () => {
             </mesh>
             {/* front */}
             <mesh
-              rotation-y={-Math.PI / 2}
+              rotation-y={Math.PI / 2}
               position={[-11, 0, 0]}
               material={wallMaterial}
             >
@@ -182,7 +193,7 @@ const Lobby = () => {
           </group>
         </group>
       </RigidBody>
-      <RigidBody type="fixed"></RigidBody>
+      <FrontWall />
       {/* Models */}
       {/* <group>
         <CouchReception1 />
