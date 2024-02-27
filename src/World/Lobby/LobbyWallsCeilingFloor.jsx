@@ -1,8 +1,7 @@
-import * as THREE from "three";
 import { useControls } from "leva";
-import { useLoader } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import { Base, Geometry, Subtraction } from "@react-three/csg";
+import { useMaterials } from "../../util/materials";
 
 const LobbyWallsCeilingFloor = () => {
   const { lobbyPosition, rotation } = useControls("Lobby", {
@@ -56,41 +55,11 @@ const LobbyWallsCeilingFloor = () => {
     },
   });
 
-  const [
-    wallColorTexture,
-    wallNormalTexture,
-    floorColorTexture,
-    ceilingColorTexture,
-  ] = useLoader(THREE.TextureLoader, [
-    "/textures/indoor/wall/color.jpg",
-    "/textures/indoor/wall/normal.jpg",
-    "/textures/indoor/floor/color.jpg",
-    "/textures/indoor/ceiling/color.jpg",
-  ]);
-  const wallMaterial = new THREE.MeshPhongMaterial({
-    map: wallColorTexture,
-    normalMap: wallNormalTexture,
-    side: THREE.DoubleSide,
-  });
+  const materials = useMaterials();
 
-  const floorMaterial = new THREE.MeshStandardMaterial({
-    map: floorColorTexture,
-  });
-
-  const ceilingMaterial = new THREE.MeshStandardMaterial({
-    map: ceilingColorTexture,
-  });
-
-  [
-    wallColorTexture,
-    wallNormalTexture,
-    floorColorTexture,
-    ceilingColorTexture,
-  ].forEach((texture) => {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(10, 10);
-  });
+  if (!materials) {
+    return null;
+  }
 
   return (
     <RigidBody colliders="trimesh" type="fixed">
@@ -110,13 +79,13 @@ const LobbyWallsCeilingFloor = () => {
         {/* Ground floor */}
         <group position-y={-3.6}>
           {/* left */}
-          <mesh position={[0, 0, -10.25]} material={wallMaterial}>
+          <mesh position={[0, 0, -10.25]} material={materials.wallMaterial}>
             <planeGeometry args={[22, 3.6]} />
           </mesh>
           {/* right */}
           <mesh
             position={[0, 0, 10.25]}
-            material={wallMaterial}
+            material={materials.wallMaterial}
             rotation-y={Math.PI}
           >
             <planeGeometry args={[22, 3.6]} />
@@ -125,7 +94,7 @@ const LobbyWallsCeilingFloor = () => {
           <mesh
             rotation-y={Math.PI / 2}
             position={[-11, 0, 0]}
-            material={wallMaterial}
+            material={materials.wallMaterial}
           >
             <Geometry>
               <Base>
@@ -142,7 +111,7 @@ const LobbyWallsCeilingFloor = () => {
           <mesh
             rotation-y={Math.PI / 2}
             position={[11, 0, 0]}
-            material={wallMaterial}
+            material={materials.wallMaterial}
           >
             <Geometry>
               <Base>
@@ -165,7 +134,7 @@ const LobbyWallsCeilingFloor = () => {
           <mesh
             rotation-x={Math.PI / 2}
             position={[0, 1.79, 0]}
-            material={ceilingMaterial}
+            material={materials.ceilingMaterial}
           >
             <planeGeometry args={[22, 20.5]} />
           </mesh>
@@ -173,7 +142,7 @@ const LobbyWallsCeilingFloor = () => {
           <mesh
             rotation-x={-Math.PI / 2}
             position={[0, -1.81, 0]}
-            material={floorMaterial}
+            material={materials.floorMaterial}
           >
             <planeGeometry args={[22, 20.5]} />
           </mesh>
