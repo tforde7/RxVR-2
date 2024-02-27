@@ -8,6 +8,7 @@ import { BuildingsTemplate } from "../BuildingsTemplate/BuildingsTemplate";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
 import MainConcourse from "./MainConcourse/MainConcourse";
+import Seahorse from "./Seahorse/Seahorse";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -40,6 +41,7 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <MainConcourse />
+        <Seahorse />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>

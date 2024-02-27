@@ -44,6 +44,7 @@ export function useMaterials() {
 
       const ceilingMaterial = new THREE.MeshBasicMaterial({
         map: ceilingColorTexture,
+        side: THREE.DoubleSide,
       });
 
       setMaterials({ wallMaterial, floorMaterial, ceilingMaterial });
