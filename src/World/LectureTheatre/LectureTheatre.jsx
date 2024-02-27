@@ -1,6 +1,7 @@
 import { useLoader } from "@react-three/fiber";
 import { useControls } from "leva";
 import * as THREE from "three";
+import Sign from "./Sign";
 
 const LectureTheatre = () => {
   const colorTexture = useLoader(
@@ -21,10 +22,16 @@ const LectureTheatre = () => {
   });
 
   return (
-    <mesh position={[position.x, position.y, position.z]} rotation-y={rotation}>
-      <boxGeometry args={[26.27, 10.8, 12]}></boxGeometry>
-      <meshBasicMaterial map={colorTexture} />
-    </mesh>
+    <>
+      <mesh
+        position={[position.x, position.y, position.z]}
+        rotation-y={rotation}
+      >
+        <boxGeometry args={[26.27, 10.8, 12]}></boxGeometry>
+        <meshBasicMaterial map={colorTexture} />
+      </mesh>
+      <Sign />
+    </>
   );
 };
 
