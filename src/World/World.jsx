@@ -6,6 +6,7 @@ import Outside from "./Outside/Outside";
 import { Physics } from "@react-three/rapier";
 import { BuildingsTemplate } from "../BuildingsTemplate/BuildingsTemplate";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
+import Lobby from "./Lobby/Lobby";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -36,6 +37,7 @@ const World = () => {
         <Outside />
         <BuildingsTemplate />
         <LectureTheatre />
+        <Lobby />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
