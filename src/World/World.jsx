@@ -1,5 +1,5 @@
 import { OrbitControls, Sky } from "@react-three/drei";
-import { useXR } from "@react-three/xr";
+import { TeleportationPlane, useXR } from "@react-three/xr";
 import { useControls } from "leva";
 import { useEffect } from "react";
 import Outside from "./Outside/Outside";
@@ -35,6 +35,7 @@ const World = () => {
         <Outside />
         <BuildingsTemplate />
       </Physics>
+      {isPresenting && <TeleportationPlane rightHand />}
     </>
   );
 };
