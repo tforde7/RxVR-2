@@ -10,6 +10,7 @@ import Lobby from "./Lobby/Lobby";
 import MainConcourse from "./MainConcourse/MainConcourse";
 import Seahorse from "./Seahorse/Seahorse";
 import MRIRoom from "./MRIRoom/MRIRoom";
+import XRayRoom from "./XRay/XRayRoom";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -44,6 +45,7 @@ const World = () => {
         <MainConcourse />
         <Seahorse />
         <MRIRoom />
+        <XRayRoom />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
