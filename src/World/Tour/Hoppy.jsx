@@ -60,10 +60,12 @@ export function Hoppy(props) {
   const waveAnimation = animationClips.actions[ACTION_PREFIX + "Wave"];
   waveAnimation.loop = THREE.LoopOnce;
 
-  const rabbitWelcome = new Audio("/sounds/hoppy/hoppy-welcome.mp3");
+  const rabbitWelcome = new Audio("./sounds/hoppy/hoppy-welcome.mp3");
+  console.log(rabbitWelcome);
   const seahorseOutpatientDialogue = new Audio(
-    "/sounds/hoppy-seahorse-outpatient.mp3"
+    "/sounds/hoppy/hoppy-seahorse-outpatient.mp3"
   );
+  console.log(seahorseOutpatientDialogue);
   const whereToNextDialogue = new Audio(
     "/sounds/hoppy/hoppy-where-to-next.mp3"
   );
