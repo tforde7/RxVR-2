@@ -30,7 +30,7 @@ export default function Doctor() {
   const position = [25, 1.5, -12]; // Example position
   const rotation = [0, -1.28, 0]; // Example rotation (in radians)
 
-  const doctorHello = new Audio("/sounds/doctor-hello.mp3");
+  const doctorHello = new Audio("/sounds/doctor/doctor-hello.mp3");
 
   const doctorRef = useRef();
 

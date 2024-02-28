@@ -60,13 +60,15 @@ export function Hoppy(props) {
   const waveAnimation = animationClips.actions[ACTION_PREFIX + "Wave"];
   waveAnimation.loop = THREE.LoopOnce;
 
-  const rabbitWelcome = new Audio("/sounds/hoppy-welcome.mp3");
+  const rabbitWelcome = new Audio("/sounds/hoppy/hoppy-welcome.mp3");
   const seahorseOutpatientDialogue = new Audio(
     "/sounds/hoppy-seahorse-outpatient.mp3"
   );
-  const whereToNextDialogue = new Audio("/sounds/hoppy-where-to-next.mp3");
-  const mriDialogue = new Audio("/sounds/hoppy-mri.mp3");
-  const xrayDialogue = new Audio("/sounds/hoppy-xray.mp3");
+  const whereToNextDialogue = new Audio(
+    "/sounds/hoppy/hoppy-where-to-next.mp3"
+  );
+  const mriDialogue = new Audio("/sounds/hoppy/hoppy-mri.mp3");
+  const xrayDialogue = new Audio("/sounds/hoppy/hoppy-xray.mp3");
 
   const rabbitRef = useRef();
   const mriButtonref = useRef();
