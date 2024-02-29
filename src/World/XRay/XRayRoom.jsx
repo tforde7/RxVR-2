@@ -1,10 +1,29 @@
+import { useControls } from "leva";
 import Room from "../Room/Room";
 import { XRayBoard } from "./XRayBoard";
-const XRayRoom = ({ length, width, height, position }) => {
+const XRayRoom = () => {
+  const { roomPosition, roomRotation } = useControls("XRayRoom", {
+    roomPosition: {
+      value: {
+        x: 84.05,
+        y: 0,
+        z: -1.57,
+      },
+      step: 0.01,
+    },
+    roomRotation: {
+      value: -2.86,
+      step: 0.01,
+    },
+  });
+
   return (
     <>
-      <Room length={20} width={20} height={3.6} position={[200, 0, -50]}></Room>
-      <group position={[206, 0, -56]}>
+      <group
+        position={[roomPosition.x, roomPosition.y, roomPosition.z]}
+        rotation-y={roomRotation}
+      >
+        <Room length={20} width={20} height={3.6}></Room>
         <XRayBoard></XRayBoard>
       </group>
     </>

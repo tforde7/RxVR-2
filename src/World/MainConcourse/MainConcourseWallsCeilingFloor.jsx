@@ -37,6 +37,24 @@ const MainConcourseWallsCeilingFloor = () => {
     },
   });
 
+  const { XRayDoorSize, XRayDoorPosition } = useControls("XRay Door", {
+    XRayDoorSize: {
+      value: {
+        height: 2.5,
+        width: 2,
+      },
+      step: 0.1,
+    },
+    XRayDoorPosition: {
+      value: {
+        x: 17,
+        y: -0.6,
+        z: 0,
+      },
+      step: 0.1,
+    },
+  });
+
   const materials = useMaterials();
 
   if (!materials) {
@@ -84,16 +102,31 @@ const MainConcourseWallsCeilingFloor = () => {
             </mesh>
             {/* right */}
             <mesh position={[0, 0, 8]} material={materials.wallMaterial}>
-              <planeGeometry args={[60, 3.6]} />
+              <Geometry>
+                <Base>
+                  <planeGeometry args={[60, 3.6]} />
+                </Base>
+                <Subtraction
+                  position={[
+                    XRayDoorPosition.x,
+                    XRayDoorPosition.y,
+                    XRayDoorPosition.z,
+                  ]}
+                >
+                  <boxGeometry
+                    args={[XRayDoorSize.width, XRayDoorSize.height, 1]}
+                  ></boxGeometry>
+                </Subtraction>
+              </Geometry>
             </mesh>
             {/* back */}
-            <mesh
+            {/* <mesh
               rotation-y={Math.PI / 2}
               position={[30, 0, 0]}
               material={materials.wallMaterial}
             >
               <planeGeometry args={[16, 3.6]} />
-            </mesh>
+            </mesh> */}
             {/* ceiling */}
             <mesh
               rotation-x={Math.PI / 2}
