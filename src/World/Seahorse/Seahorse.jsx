@@ -40,26 +40,26 @@ const Seahorse = () => {
         <SeahorseWallsCeilingFloor />
       </group>
       {/* WEST */}
-      <BedRow
+      {/* <BedRow
         position={[40.27, 0, -37.62]}
         rotation={[0, -2.78, 0]}
         scale={5}
         numberOfBeds={8}
-      ></BedRow>
+      ></BedRow> */}
       {/* EAST */}
-      <BedRow
+      {/* <BedRow
         position={[61.94, 0, -52.73]}
         rotation={[0, -2.78, 0]}
         scale={5}
         numberOfBeds={8}
-      ></BedRow>
+      ></BedRow> */}
       {/* NORTH */}
-      <BedRow
+      {/* <BedRow
         position={[29.56, 0, -58.09]}
         rotation={[0, -4.49, 0]}
         scale={5}
         numberOfBeds={7}
-      ></BedRow>
+      ></BedRow> */}
     </>
   );
 };
