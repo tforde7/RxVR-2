@@ -1,5 +1,5 @@
 import { useControls } from "leva";
-import Room from "../Room/Room";
+import Room from "../Primitives/Room";
 import { MRIMachine } from "./MRIMachine";
 
 const MRIRoom = () => {

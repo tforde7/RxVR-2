@@ -1,5 +1,5 @@
 import { useControls } from "leva";
-import Room from "../Room/Room";
+import Room from "../Primitives/Room";
 import { XRayBoard } from "./XRayBoard";
 const XRayRoom = () => {
   const { roomPosition, roomRotation } = useControls("XRayRoom", {
