@@ -8,10 +8,10 @@ import { BuildingsTemplate } from "../BuildingsTemplate/BuildingsTemplate";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
 import MainConcourse from "./MainConcourse/MainConcourse";
-import Seahorse from "./Seahorse/Seahorse";
 import MRIRoom from "./MRIRoom/MRIRoom";
 import XRayRoom from "./XRay/XRayRoom";
 import { Hoppy } from "./Tour/Hoppy";
+import SeahorseContainer from "./Seahorse/SeahorseContainer";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -44,7 +44,7 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <MainConcourse />
-        <Seahorse />
+        <SeahorseContainer />
         <MRIRoom />
         <XRayRoom />
         <Hoppy scale={0.5} position-z={-3} />

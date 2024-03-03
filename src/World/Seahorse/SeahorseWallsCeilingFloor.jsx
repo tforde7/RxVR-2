@@ -93,11 +93,8 @@ const SeahorseWallsCeilingFloor = () => {
         </RigidBody>
         {/* Back wall */}
         <RigidBody colliders={"cuboid"} type="fixed">
-          <mesh
-            material={materials.wallMaterial}
-            position={[-3.018, 1.8, -20.5]}
-          >
-            <planeGeometry args={[28.965, 3.6]}></planeGeometry>
+          <mesh material={materials.wallMaterial} position={[0, 1.8, -20.5]}>
+            <planeGeometry args={[35, 3.6]}></planeGeometry>
           </mesh>
         </RigidBody>
       </group>
