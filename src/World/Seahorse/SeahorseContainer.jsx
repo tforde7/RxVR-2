@@ -2,20 +2,20 @@ import { useControls } from "leva";
 import SeahorseCorridor from "./SeahorseCorridor";
 import SeahorseWallsCeilingFloor from "./SeahorseWallsCeilingFloor";
 import BedRow from "./BedRow";
-import { Seahorse } from "./Seahorse";
+import { SeahorseOuter } from "./SeahorseOuter";
 
 const SeahorseContainer = () => {
   const { seahorsePosition, seahorseRotation } = useControls("Seahorse", {
     seahorsePosition: {
       value: {
-        x: 64.06,
+        x: 55.9,
         y: -0.01,
-        z: -28.67,
+        z: -14.94,
       },
       step: 0.01,
     },
     seahorseRotation: {
-      value: 0.37,
+      value: 0.27,
       step: 0.01,
     },
   });
@@ -23,11 +23,11 @@ const SeahorseContainer = () => {
   const { wardPosition } = useControls("Ward", {
     wardPosition: {
       value: {
-        x: -10.24,
+        x: -10.2,
         y: 0,
         z: -26.6,
       },
-      step: 0.01,
+      step: 0.1,
     },
   });
 
@@ -39,7 +39,8 @@ const SeahorseContainer = () => {
       >
         {/* <SeahorseCorridor /> */}
         {/* <SeahorseWallsCeilingFloor /> */}
-        <Seahorse />
+        {/* <Seahorse /> */}
+        <SeahorseOuter />
       </group>
       {/* WEST */}
       {/* <BedRow
