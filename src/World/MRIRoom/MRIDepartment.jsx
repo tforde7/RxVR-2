@@ -16,9 +16,9 @@ export function MRIDepartment(props) {
   const { position, rotation } = useControls("MRI Department", {
     position: {
       value: {
-        x: 20,
+        x: 80,
         y: 0,
-        z: 80,
+        z: 20,
       },
       step: 0.01,
     },
