@@ -14,6 +14,7 @@ import { Hoppy } from "./Tour/Hoppy";
 import SeahorseContainer from "./Seahorse/SeahorseContainer";
 import { LobbyAndMainConcourse } from "./Lobby-and-main-concourse";
 import { XrayDepartment } from "./XRay/XrayDepartment";
+import { MRIDepartment } from "./MRIRoom/MRIDepartment";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -51,6 +52,7 @@ const World = () => {
         {/* <MRIRoom /> */}
         {/* <XRayRoom /> */}
         <XrayDepartment />
+        <MRIDepartment />
         <Hoppy scale={0.5} position-z={-3} />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
