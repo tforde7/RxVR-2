@@ -19,7 +19,7 @@ const Ground = () => {
 
   return (
     <RigidBody type="fixed">
-      <mesh rotation-x={-Math.PI / 2} position-y={-0.03}>
+      <mesh rotation-x={-Math.PI / 2} position-y={-0.01}>
         <planeGeometry args={[500, 500]}></planeGeometry>
         <meshBasicMaterial map={groundColorTexture}></meshBasicMaterial>
       </mesh>

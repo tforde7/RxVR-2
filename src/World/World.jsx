@@ -4,18 +4,10 @@ import { useControls } from "leva";
 import { useEffect } from "react";
 import Outside from "./Outside/Outside";
 import { Physics } from "@react-three/rapier";
-import { BuildingsTemplate } from "../BuildingsTemplate/BuildingsTemplate";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
-import MainConcourse from "./MainConcourse/MainConcourse";
-import MRIRoom from "./MRIRoom/MRIRoom";
-import XRayRoom from "./XRay/XRayRoom";
 import { Hoppy } from "./Tour/Hoppy";
-import SeahorseContainer from "./Seahorse/SeahorseContainer";
-import { LobbyAndMainConcourse } from "./Lobby-and-main-concourse";
-import { XrayDepartment } from "./XRay/XrayDepartment";
-import { MRIDepartment } from "./MRIRoom/MRIDepartment";
-import { LobbyAndMainConcourse4 } from "./Lobby-and-main-concourse-4";
+import { BuildingsCombined } from "./BuildingsCombined";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -24,6 +16,21 @@ const World = () => {
       step: 0.1,
     },
     orbitControlsEnabled: true,
+  });
+
+  const { position, rotation } = useControls("Buildings", {
+    position: {
+      value: {
+        x: 111.5,
+        y: 0,
+        z: -28.5,
+      },
+      step: 0.01,
+    },
+    rotation: {
+      value: -1.29,
+      step: 0.01,
+    },
   });
 
   const { isPresenting, player } = useXR();
@@ -44,17 +51,9 @@ const World = () => {
       />
       <Physics>
         <Outside />
-        <BuildingsTemplate />
         <LectureTheatre />
-        {/* <Lobby />
-        <MainConcourse /> */}
-        {/* <LobbyAndMainConcourse /> */}
-        <LobbyAndMainConcourse4 />
-        <SeahorseContainer />
-        {/* <MRIRoom /> */}
-        {/* <XRayRoom /> */}
-        <XrayDepartment />
-        <MRIDepartment />
+        <Lobby />
+        <BuildingsCombined />
         <Hoppy scale={0.5} position-z={-3} />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
