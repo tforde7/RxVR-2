@@ -1,11 +1,5 @@
-import MainConcourseWallsCeilingFloor from "./MainConcourseWallsCeilingFloor";
-
 const MainConcourse = () => {
-  return (
-    <group>
-      <MainConcourseWallsCeilingFloor />
-    </group>
-  );
+  return <group></group>;
 };
 
 export default MainConcourse;

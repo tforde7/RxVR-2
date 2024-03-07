@@ -1,12 +1,10 @@
 import { FrontWall } from "./FrontWall";
-import LobbyWallsCeilingFloor from "./LobbyWallsCeilingFloor";
 import Reception from "./Reception/Reception";
 
 const Lobby = () => {
   return (
     <>
-      <LobbyWallsCeilingFloor />
-      <FrontWall />
+      {/* <FrontWall /> */}
       <Reception />
       {/* Models */}
       {/* <group>

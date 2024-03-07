@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { useInteraction, useTeleportation } from "@react-three/xr";
 import teleportObject from "../../util/teleportObject";
-import FloatingButton from "../Buttons/FloatingButton";
+import FloatingButton from "./Buttons/FloatingButton";
 import * as THREE from "three";
 
 export function Hoppy(props) {
@@ -62,10 +62,10 @@ export function Hoppy(props) {
 
   const rabbitWelcome = new Audio("./sounds/hoppy/hoppy-welcome.mp3");
   const seahorseOutpatientDialogue = new Audio(
-    "/sounds/hoppy/hoppy-seahorse-outpatient.mp3",
+    "/sounds/hoppy/hoppy-seahorse-outpatient.mp3"
   );
   const whereToNextDialogue = new Audio(
-    "/sounds/hoppy/hoppy-where-to-next.mp3",
+    "/sounds/hoppy/hoppy-where-to-next.mp3"
   );
   const mriDialogue = new Audio("/sounds/hoppy/hoppy-mri.mp3");
   const xrayDialogue = new Audio("/sounds/hoppy/hoppy-xray.mp3");
