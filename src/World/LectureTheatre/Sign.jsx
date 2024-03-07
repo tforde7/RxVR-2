@@ -7,9 +7,9 @@ export default function Sign() {
   const { position, rotation } = useControls("Sign", {
     position: {
       value: {
-        x: 4.6,
+        x: 13.2,
         y: 9.3,
-        z: -10.4,
+        z: -13,
       },
       step: 0.1,
     },
