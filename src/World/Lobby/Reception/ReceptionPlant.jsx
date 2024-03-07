@@ -6,8 +6,8 @@ export default function ReceptionPlant() {
   const pottedPlant = useGLTF("/models/plants/fig-plant.glb");
 
   // Fixed values for the model's properties
-  const scale = [0.3, 0.3, 0.3]; // Example scale value
-  const position = [22, 0, -15]; // Example position value
+  const scale = [0.22, 0.22, 0.22]; // Example scale value
+  const position = [21, 0, -14]; // Example position value
   const rotation = [0, 0, 0]; // Example rotation value (in radians)
 
   return (

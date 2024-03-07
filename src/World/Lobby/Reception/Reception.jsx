@@ -12,7 +12,7 @@ const Reception = () => {
     {
       waitingArea1Position: {
         value: {
-          x: 23.2,
+          x: 28.7,
           y: 0,
           z: 4.3,
         },
@@ -30,9 +30,9 @@ const Reception = () => {
     {
       waitingArea2Position: {
         value: {
-          x: 34.5,
+          x: 48.4,
           y: 0,
-          z: 0.6,
+          z: -1.1,
         },
         step: 0.1,
       },
