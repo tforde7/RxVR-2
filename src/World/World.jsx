@@ -15,6 +15,7 @@ import SeahorseContainer from "./Seahorse/SeahorseContainer";
 import { LobbyAndMainConcourse } from "./Lobby-and-main-concourse";
 import { XrayDepartment } from "./XRay/XrayDepartment";
 import { MRIDepartment } from "./MRIRoom/MRIDepartment";
+import { LobbyAndMainConcourse4 } from "./Lobby-and-main-concourse-4";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -47,7 +48,8 @@ const World = () => {
         <LectureTheatre />
         {/* <Lobby />
         <MainConcourse /> */}
-        <LobbyAndMainConcourse />
+        {/* <LobbyAndMainConcourse /> */}
+        <LobbyAndMainConcourse4 />
         <SeahorseContainer />
         {/* <MRIRoom /> */}
         {/* <XRayRoom /> */}
