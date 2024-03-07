@@ -17,7 +17,7 @@ export function BuildingsCombined(props) {
     position: {
       value: {
         x: 55.6,
-        y: 0,
+        y: -0.01,
         z: -14.8,
       },
       step: 0.1,

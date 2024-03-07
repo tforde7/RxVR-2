@@ -3,10 +3,10 @@ import { RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 
 const Ground = () => {
-  const GROUND_LENGTH = 500;
-  const GROUND_WIDTH = 500;
+  const GROUND_LENGTH = 150;
+  const GROUND_WIDTH = 150;
 
-  const textureRepeat = 200;
+  const textureRepeat = 60;
 
   const groundColorTexture = useLoader(
     THREE.TextureLoader,
@@ -19,8 +19,14 @@ const Ground = () => {
 
   return (
     <RigidBody type="fixed">
-      <mesh rotation-x={-Math.PI / 2} position-y={-0.01}>
-        <planeGeometry args={[500, 500]}></planeGeometry>
+      <mesh
+        rotation-x={-Math.PI / 2}
+        position-y={-0.02}
+        rotation-z={0.3}
+        position-x={60}
+        position-z={-20}
+      >
+        <planeGeometry args={[GROUND_LENGTH, GROUND_WIDTH]}></planeGeometry>
         <meshBasicMaterial map={groundColorTexture}></meshBasicMaterial>
       </mesh>
     </RigidBody>
