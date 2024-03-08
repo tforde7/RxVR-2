@@ -8,6 +8,7 @@ import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
 import { Hoppy } from "./Tour/Hoppy";
 import { BuildingsCombined } from "./BuildingsCombined";
+import { Beatrizz } from "./Tour/Beatrizz";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -54,7 +55,8 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <BuildingsCombined />
-        <Hoppy scale={0.5} position-z={-3} />
+        {/* <Hoppy scale={0.5} position-z={-3} /> */}
+        <Beatrizz />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
