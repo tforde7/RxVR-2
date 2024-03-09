@@ -8,6 +8,9 @@ import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
 import { BuildingsCombined } from "./BuildingsCombined";
 import { Beatrizz } from "./Tour/Beatrizz";
+import { MRITV } from "./MRI/MRITV";
+import { TestTV } from "./TestTV";
+import { XRayTV } from "./XRay/XRayTV";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -59,7 +62,9 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <BuildingsCombined />
-        <Beatrizz />
+        {/* <Beatrizz /> */}
+        <MRITV />
+        <XRayTV />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
