@@ -6,14 +6,50 @@ Command: npx gltfjsx@6.2.16 beatrizz.glb
 import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations, Float, Trail } from "@react-three/drei";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Pathfinding, PathfindingHelper } from "three-pathfinding";
+
+const POSITIONS = {
+  outside: [18, 0, -3],
+  reception: [38, 0, 0],
+  seahorse_1: [70.6, 0, -60.5],
+  seahorse_2: [53, 0, -48.5],
+  seahorse_3: [67.4, 0, -36.2],
+  xray: [120, 0, -15.2],
+  mri: [127.3, 0, 14.2],
+};
+
+const DIALOGUE = [
+  new Audio("/sounds/beatrizz/beatrizz-intro-1.mp3"),
+  new Audio("/sounds/beatrizz/beatrizz-intro-2.mp3"),
+  new Audio("/sounds/beatrizz/beatrizz-reception-1.mp3"),
+  new Audio("/sounds/beatrizz/beatrizz-reception-2.mp3"),
+  new Audio("/sounds/beatrizz/seahorse-1.mp3"),
+  new Audio("/sounds/beatrizz/seahorse-2.mp3"),
+  new Audio("/sounds/beatrizz/seahorse-3.mp3"),
+  new Audio("/sounds/beatrizz/beatrizz-xray.mp3"),
+  new Audio("/sounds/beatrizz/beatrizz-mri.mp3"),
+];
+
+const pathfinding = new Pathfinding();
+const pathfindingHelper = new PathfindingHelper();
+const raycaster = new THREE.Raycaster();
+
+const ZONE = "level1";
+
+let groupId;
+let navPath;
+
+let navmesh;
 
 export function Beatrizz(props) {
-  const group = useRef();
+  const { gl, clock, camera } = useThree();
+
+  const beatrizz = useRef();
   const { nodes, materials, animations } = useGLTF(
     "/models/npcs/beatrizz/beatrizz.glb"
   );
-  const { actions } = useAnimations(animations, group);
+  const { actions } = useAnimations(animations, beatrizz);
 
   const ACTION_PREFIX = "CharacterArmature|";
 
@@ -27,56 +63,88 @@ export function Beatrizz(props) {
     }
   }, [idleAnimation]);
 
-  const dialogue = [
-    new Audio("/sounds/beatrizz/beatrizz-intro-1.mp3"),
-    new Audio("/sounds/beatrizz/beatrizz-intro-2.mp3"),
-    new Audio("/sounds/beatrizz/beatrizz-reception-1.mp3"),
-    new Audio("/sounds/beatrizz/beatrizz-reception-2.mp3"),
-    new Audio("/sounds/beatrizz/seahorse-1.mp3"),
-    new Audio("/sounds/beatrizz/seahorse-2.mp3"),
-    new Audio("/sounds/beatrizz/seahorse-3.mp3"),
-    new Audio("/sounds/beatrizz/beatrizz-xray.mp3"),
-    new Audio("/sounds/beatrizz/beatrizz-mri.mp3"),
-  ];
+  const navmeshModel = useGLTF("/models/navmesh/navmesh.glb");
+  navmeshModel.scene.position.set(55.6, 0, -14.8);
+  navmeshModel.scene.rotation.set(0, 0.28, 0);
 
-  console.log(dialogue);
+  useEffect(() => {
+    // PATHFINDING
+
+    if (navmeshModel && !navmesh) {
+      navmesh = navmeshModel.nodes.navmesh;
+      pathfinding.setZoneData(ZONE, Pathfinding.createZone(navmesh.geometry));
+    }
+
+    gl.domElement.addEventListener("click", (event) => {
+      const mouse = new THREE.Vector2();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(navmesh);
+
+      const moveToPosition = (target) => {
+        groupId = pathfinding.getGroup("tour", agent.current.position);
+        const closestNode = pathfinding.getClosestNode(
+          agent.current.position,
+          ZONE,
+          groupId
+        );
+
+        console.log("closestNode", closestNode.centroid);
+        console.log("target", target);
+        console.log("ZONE", ZONE);
+        console.log("groupId", groupId);
+
+        navPath = pathfinding.findPath(
+          closestNode.centroid,
+          target,
+          ZONE,
+          groupId
+        );
+
+        navPath = pathfinding.findPath();
+        console.log("navPath", navPath);
+        if (navPath) {
+          pathfindingHelper.reset();
+          pathfindingHelper.setPlayerPosition(agent.current.position);
+          pathfindingHelper.setTargetPosition(target);
+          pathfindingHelper.setPath(navPath);
+        }
+      };
+
+      const move = (deltaTime) => {
+        if (!navPath || navPath.length <= 0) return;
+
+        let targetPosition = navPath[0];
+        const distance = targetPosition
+          .clone()
+          .sub(agent.current.position)
+          .length();
+        if (distance.lengthSq() > 0.5 * 0.05) {
+          distance.normalize();
+          agent.current.position.add(distance.multiplyScalar(deltaTime));
+        } else {
+          navPath.shift();
+        }
+      };
+
+      if (intersects.length > 0) {
+        const point = intersects[0].point;
+        moveToPosition(point);
+      }
+    });
+  }, []);
 
   // Function to smoothly rotate the character
   const rotateCharacter = (targetRotation) => {
-    group.current.rotation.y +=
-      (targetRotation - group.current.rotation.y) * 0.1; // Adjust the 0.1 for rotation speed
+    beatrizz.current.rotation.y +=
+      (targetRotation - beatrizz.current.rotation.y) * 0.1; // Adjust the 0.1 for rotation speed
   };
 
-  // Function to move the character in a specific direction
-  // const moveCharacter = () => {
-  //   group.current.position.add(direction.multiplyScalar(0.1)); // Adjust the 0.1 for movement speed
-  // };
-
-  // Update character's movement on each frame
   useFrame(() => {
-    // moveCharacter();
+    // move(clock.getDelta());
   });
-
-  // const talkingAnimation =
-  //   animationClips.actions[ACTION_PREFIX + "Sitting_Idle"];
-  // const waveAnimation = animationClips.actions[ACTION_PREFIX + "Wave"];
-  // waveAnimation.loop = THREE.LoopOnce;
-
-  // const rabbitWelcome = new Audio("./sounds/hoppy/hoppy-welcome.mp3");
-  // const seahorseOutpatientDialogue = new Audio(
-  //   "/sounds/hoppy/hoppy-seahorse-outpatient.mp3"
-  // );
-  // const whereToNextDialogue = new Audio(
-  //   "/sounds/hoppy/hoppy-where-to-next.mp3"
-  // );
-  // const mriDialogue = new Audio("/sounds/hoppy/hoppy-mri.mp3");
-  // const xrayDialogue = new Audio("/sounds/hoppy/hoppy-xray.mp3");
-
-  // const rabbitRef = useRef();
-  // const mriButtonref = useRef();
-  // const xrayButtonref = useRef();
-  // const seahorseButtonref = useRef();
-  // const buttonGroupRef = useRef();
 
   // const teleport = useTeleportation();
 
@@ -163,71 +231,89 @@ export function Beatrizz(props) {
   //   }
   // });
 
+  const agent = useRef();
+
   return (
-    <Trail
-      width={0.2} // Width of the line
-      color={"hotpink"} // Color of the line
-      length={1} // Length of the line
-      decay={1} // How fast the line fades away
-      local={false} // Wether to use the target's world or local positions
-      stride={0} // Min distance between previous and current point
-      interval={1} // Number of frames to wait before next calculation
-      target={undefined} // Optional target. This object will produce the trail.
-      attenuation={(width) => width} // A function to define the width in each point along it.
-    >
-      <Float
-        speed={3} // Animation speed, defaults to 1
-        rotationIntensity={1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={3} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        // floatingRange={[1, 2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <group ref={group} {...props} dispose={null}>
-          <group name="Root_Scene">
-            <group name="RootNode">
-              <group
-                name="CharacterArmature"
-                rotation={[-Math.PI / 2, 0, 0]}
-                scale={100}
-              >
-                <primitive object={nodes.Root} />
-              </group>
-              <group name="Armabee" rotation={[-Math.PI / 2, 0, 0]} scale={100}>
-                <skinnedMesh
-                  name="Armabee_1"
-                  geometry={nodes.Armabee_1.geometry}
-                  material={materials.Armabee_Main}
-                  skeleton={nodes.Armabee_1.skeleton}
-                />
-                <skinnedMesh
-                  name="Armabee_2"
-                  geometry={nodes.Armabee_2.geometry}
-                  material={materials.Armabee_Secondary}
-                  skeleton={nodes.Armabee_2.skeleton}
-                />
-                <skinnedMesh
-                  name="Armabee_3"
-                  geometry={nodes.Armabee_3.geometry}
-                  material={materials.Eye_White}
-                  skeleton={nodes.Armabee_3.skeleton}
-                />
-                <skinnedMesh
-                  name="Armabee_4"
-                  geometry={nodes.Armabee_4.geometry}
-                  material={materials.Eye_Black}
-                  skeleton={nodes.Armabee_4.skeleton}
-                />
-                <skinnedMesh
-                  name="Armabee_5"
-                  geometry={nodes.Armabee_5.geometry}
-                  material={materials.Wings}
-                  skeleton={nodes.Armabee_5.skeleton}
-                />
-              </group>
+    <>
+      <group ref={agent}>
+        <mesh position={[18, 0, 0]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color={"hotpink"} />
+        </mesh>
+      </group>
+      <primitive object={pathfindingHelper} />
+      <primitive object={navmeshModel.scene} />
+      <group position={[18, 0, -3]} rotation-y={-2}>
+        <Trail
+          width={0.2} // Width of the line
+          color={"hotpink"} // Color of the line
+          length={1} // Length of the line
+          decay={1} // How fast the line fades away
+          local={false} // Wether to use the target's world or local positions
+          stride={0} // Min distance between previous and current point
+          interval={1} // Number of frames to wait before next calculation
+          target={undefined} // Optional target. This object will produce the trail.
+          attenuation={(width) => width} // A function to define the width in each point along it.
+        >
+          <Float
+            speed={3} // Animation speed, defaults to 1
+            rotationIntensity={1} // XYZ rotation intensity, defaults to 1
+            // floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+            // floatingRange={[1, 2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+          >
+            <group ref={beatrizz} {...props} dispose={null} scale={0.5}>
+              {/* <group name="Root_Scene">
+                <group name="RootNode">
+                  <group
+                    name="CharacterArmature"
+                    rotation={[-Math.PI / 2, 0, 0]}
+                    scale={100}
+                  >
+                    <primitive object={nodes.Root} />
+                  </group>
+                  <group
+                    name="Armabee"
+                    rotation={[-Math.PI / 2, 0, 0]}
+                    scale={100}
+                  >
+                    <skinnedMesh
+                      name="Armabee_1"
+                      geometry={nodes.Armabee_1.geometry}
+                      material={materials.Armabee_Main}
+                      skeleton={nodes.Armabee_1.skeleton}
+                    />
+                    <skinnedMesh
+                      name="Armabee_2"
+                      geometry={nodes.Armabee_2.geometry}
+                      material={materials.Armabee_Secondary}
+                      skeleton={nodes.Armabee_2.skeleton}
+                    />
+                    <skinnedMesh
+                      name="Armabee_3"
+                      geometry={nodes.Armabee_3.geometry}
+                      material={materials.Eye_White}
+                      skeleton={nodes.Armabee_3.skeleton}
+                    />
+                    <skinnedMesh
+                      name="Armabee_4"
+                      geometry={nodes.Armabee_4.geometry}
+                      material={materials.Eye_Black}
+                      skeleton={nodes.Armabee_4.skeleton}
+                    />
+                    <skinnedMesh
+                      name="Armabee_5"
+                      geometry={nodes.Armabee_5.geometry}
+                      material={materials.Wings}
+                      skeleton={nodes.Armabee_5.skeleton}
+                    />
+                  </group>
+                </group>
+              </group> */}
             </group>
-          </group>
-        </group>
-      </Float>
-    </Trail>
+          </Float>
+        </Trail>
+      </group>
+    </>
   );
 }
 
