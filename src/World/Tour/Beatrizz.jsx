@@ -235,14 +235,14 @@ export function Beatrizz(props) {
 
   return (
     <>
-      <group ref={agent}>
+      {/* <group ref={agent}>
         <mesh position={[18, 0, 0]}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial color={"hotpink"} />
         </mesh>
       </group>
       <primitive object={pathfindingHelper} />
-      <primitive object={navmeshModel.scene} />
+      <primitive object={navmeshModel.scene} /> */}
       <group position={[18, 0, -3]} rotation-y={-2}>
         <Trail
           width={0.2} // Width of the line
