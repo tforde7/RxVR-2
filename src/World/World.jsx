@@ -6,7 +6,6 @@ import Outside from "./Outside/Outside";
 import { Physics } from "@react-three/rapier";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
 import Lobby from "./Lobby/Lobby";
-import { Hoppy } from "./Tour/Hoppy";
 import { BuildingsCombined } from "./BuildingsCombined";
 import { Beatrizz } from "./Tour/Beatrizz";
 
@@ -16,20 +15,24 @@ const World = () => {
       value: { x: 0, y: 0, z: 0 },
       step: 0.1,
     },
-    orbitControlsEnabled: true,
+    orbitControlsEnabled: false,
   });
 
-  const { position, rotation } = useControls("Buildings", {
-    position: {
+  const { playerPosition, playerRotation } = useControls("Player", {
+    playerPosition: {
       value: {
-        x: 111.5,
-        y: 0,
-        z: -28.5,
+        x: 15,
+        y: 1.6,
+        z: 0,
       },
-      step: 0.01,
+      step: 0.1,
     },
-    rotation: {
-      value: -1.29,
+    playerRotation: {
+      value: {
+        x: 0,
+        y: 0,
+        z: 0,
+      },
       step: 0.01,
     },
   });
@@ -38,11 +41,12 @@ const World = () => {
 
   useEffect(() => {
     if (!isPresenting) {
-      player.position.set(0, 1.6, 0);
+      player.position.set(playerPosition.x, 1.6, 0);
     } else {
-      player.position.set(0, 0, 0);
+      player.position.set(playerPosition.x, 0, 0);
     }
   }, [isPresenting]);
+
   return (
     <>
       <Sky />
@@ -55,7 +59,6 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <BuildingsCombined />
-        {/* <Hoppy scale={0.5} position-z={-3} /> */}
         <Beatrizz />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
