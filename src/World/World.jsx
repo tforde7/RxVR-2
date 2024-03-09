@@ -12,7 +12,7 @@ import { BuildingsCombined } from "./BuildingsCombined";
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
     cameraTarget: {
-      value: { x: 0, y: 0, z: 0 },
+      value: { x: 75, y: 0, z: -40 },
       step: 0.1,
     },
     orbitControlsEnabled: true,

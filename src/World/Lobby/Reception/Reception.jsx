@@ -5,6 +5,8 @@ import Doctor from "./Doctor";
 import ReceptionDesk from "./ReceptionDesk";
 import ReceptionPlant from "./ReceptionPlant";
 import ReceptionSign from "./ReceptionSign";
+import Receptionist from "./Receptionist";
+import Gym from "../../Seahorse/GymF/Gym";
 
 const Reception = () => {
   const { waitingArea1Position, waitingArea1Rotation } = useControls(
@@ -49,6 +51,8 @@ const Reception = () => {
       <ReceptionSign />
       <ReceptionPlant />
       <Doctor />
+      <Receptionist />
+      <Gym />
       <WaitingArea1
         position={[
           waitingArea1Position.x,
