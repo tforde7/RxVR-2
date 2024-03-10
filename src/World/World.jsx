@@ -1,7 +1,7 @@
 import { OrbitControls, Sky } from "@react-three/drei";
-import { TeleportationPlane, useXR } from "@react-three/xr";
+import { TeleportationPlane, useInteraction, useXR } from "@react-three/xr";
 import { useControls } from "leva";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Outside from "./Outside/Outside";
 import { Physics } from "@react-three/rapier";
 import LectureTheatre from "./LectureTheatre/LectureTheatre";
@@ -50,6 +50,14 @@ const World = () => {
     }
   }, [isPresenting]);
 
+  const teleportationPlane = useRef();
+
+  const teleportSound = new Audio("/sounds/sfx/whoosh.mp3");
+
+  useInteraction(teleportationPlane, "onSqueeze", () => {
+    teleportSound.play();
+  });
+
   return (
     <>
       <Sky />
@@ -67,7 +75,9 @@ const World = () => {
         <XRayTV />
         {/* <TestTV /> */}
       </Physics>
-      {isPresenting && <TeleportationPlane rightHand />}
+      {isPresenting && (
+        <TeleportationPlane ref={teleportationPlane} rightHand />
+      )}
     </>
   );
 };

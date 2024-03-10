@@ -14,6 +14,7 @@ import {
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
+import { useInteraction } from "@react-three/xr";
 
 const POSITIONS = {
   outside: [18, 0, -3],
@@ -143,6 +144,12 @@ export function Beatrizz(props) {
   };
 
   const agent = useRef();
+
+  const hoverSound = new Audio("/sounds/sfx/pop.mp3");
+
+  useInteraction(beatrizz, "onHover", () => {
+    hoverSound.play();
+  });
 
   return (
     <>
