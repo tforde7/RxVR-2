@@ -86,39 +86,35 @@ export function Beatrizz(props) {
         }
       });
     }
-    gl.domElement.addEventListener("click", (event) => {
-      const mouse = new THREE.Vector2();
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObject(navmesh);
+    // gl.domElement.addEventListener("click", (event) => {
+    //   const mouse = new THREE.Vector2();
+    //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    //   raycaster.setFromCamera(mouse, camera);
+    //   const intersects = raycaster.intersectObject(navmesh);
 
-      const createNavpath = (target) => {
-        groupId = pathfinding.getGroup("level1", beatrizz.current.position);
-        const closestNode = pathfinding.getClosestNode(
-          beatrizz.current.position,
-          ZONE,
-          groupId
-        );
-        navPath = pathfinding.findPath(
-          closestNode.centroid,
-          target,
-          ZONE,
-          groupId
-        );
-        if (navPath) {
-          pathfindingHelper.reset();
-          pathfindingHelper.setPlayerPosition(beatrizz.current.position);
-          pathfindingHelper.setTargetPosition(target);
-          pathfindingHelper.setPath(navPath);
-        }
-      };
-      if (intersects.length > 0) {
-        const point = intersects[0].point;
-        createNavpath(point);
-      }
-    });
+    //   if (intersects.length > 0) {
+    //     const point = intersects[0].point;
+    //     createNavpath(point);
+    //   }
+    // });
   }, []);
+
+  const createNavpath = (target) => {
+    groupId = pathfinding.getGroup("level1", beatrizz.current.position);
+    const closestNode = pathfinding.getClosestNode(
+      beatrizz.current.position,
+      ZONE,
+      groupId
+    );
+    navPath = pathfinding.findPath(closestNode.centroid, target, ZONE, groupId);
+    if (navPath) {
+      pathfindingHelper.reset();
+      pathfindingHelper.setPlayerPosition(beatrizz.current.position);
+      pathfindingHelper.setTargetPosition(target);
+      pathfindingHelper.setPath(navPath);
+    }
+  };
 
   const move = (deltaTime) => {
     if (!navPath || navPath.length <= 0) return;
@@ -161,15 +157,40 @@ export function Beatrizz(props) {
     hoverSound.play();
   });
 
-  const { navmeshPosition } = useControls("Navmesh", {
-    navmeshPosition: {
-      value: {
-        x: 55.6,
-        y: 0,
-        z: -14.8,
-      },
-      step: 0.1,
-    },
+  useInteraction(beatrizz, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    beatrizz.current.lookAt(player.position);
+
+    // Play the next dialogue
+    const currentDialogue = DIALOGUE.shift();
+    if (currentDialogue) {
+      currentDialogue.play();
+
+      // Determine movement based on dialogue played
+      switch (currentDialogue.src) {
+        case "/sounds/beatrizz/beatrizz-intro-2.mp3":
+          // Move Beatrizz to "reception" position
+          createNavpath(POSITIONS.reception);
+          break;
+        case "/sounds/beatrizz/beatrizz-reception-2.mp3":
+          createNavpath(POSITIONS.seahorse_1);
+          break;
+        case "/sounds/beatrizz/beatrizz-seahorse-1.mp3":
+          createNavpath(POSITIONS.seahorse_2);
+          break;
+        case "/sounds/beatrizz/beatrizz-seahorse-2.mp3":
+          createNavpath(POSITIONS.seahorse_3);
+          break;
+        case "/sounds/beatrizz/beatrizz-seahorse-3.mp3":
+          createNavpath(POSITIONS.xray);
+          break;
+        case "/sounds/beatrizz/beatrizz-xray.mp3":
+          createNavpath(POSITIONS.mri);
+          break;
+        default:
+          break;
+      }
+    }
   });
 
   return (
