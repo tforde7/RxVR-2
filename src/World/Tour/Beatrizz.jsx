@@ -18,13 +18,13 @@ import { useInteraction, useXR } from "@react-three/xr";
 import { useControls } from "leva";
 
 const POSITIONS = {
-  outside: [18, 0, -3],
-  reception: [38, 0, 0],
-  seahorse_1: [70.6, 0, -60.5],
-  seahorse_2: [53, 0, -48.5],
-  seahorse_3: [67.4, 0, -36.2],
-  xray: [120, 0, -15.2],
-  mri: [127.3, 0, 14.2],
+  outside: new THREE.Vector3(18, 0.2, -3),
+  reception: new THREE.Vector3(39.9, 0.2, -1),
+  seahorse_1: new THREE.Vector3(71.4, 0.2, -60.5),
+  seahorse_2: new THREE.Vector3(49.2, 0.2, -59.3),
+  seahorse_3: new THREE.Vector3(67.4, 0.2, -36.2),
+  xray: new THREE.Vector3(122, 0.2, -15.3),
+  mri: new THREE.Vector3(125.7, 0.2, 16.7),
 };
 
 const DIALOGUE = [
@@ -86,18 +86,20 @@ export function Beatrizz(props) {
         }
       });
     }
-    // gl.domElement.addEventListener("click", (event) => {
-    //   const mouse = new THREE.Vector2();
-    //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    //   raycaster.setFromCamera(mouse, camera);
-    //   const intersects = raycaster.intersectObject(navmesh);
 
-    //   if (intersects.length > 0) {
-    //     const point = intersects[0].point;
-    //     createNavpath(point);
-    //   }
-    // });
+    gl.domElement.addEventListener("click", (event) => {
+      // const mouse = new THREE.Vector2();
+      // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      // raycaster.setFromCamera(mouse, camera);
+      // const intersects = raycaster.intersectObject(navmesh);
+      // if (intersects.length > 0) {
+      //   console.log("raycaster", intersects[0].point);
+      //   const point = intersects[0].point;
+      //   createNavpath(point);
+      // }
+      // createNavpath(POSITIONS.mri);
+    });
   }, []);
 
   const createNavpath = (target) => {
@@ -107,18 +109,12 @@ export function Beatrizz(props) {
       ZONE,
       groupId
     );
-    console.log("closest node", closestNode.centroid);
-    console.log("target", target);
-    console.log("group id", groupId);
-    console.log("zone", ZONE);
     navPath = pathfinding.findPath(closestNode.centroid, target, ZONE, groupId);
-    console.log("navpath", navPath);
     if (navPath) {
       pathfindingHelper.reset();
       pathfindingHelper.setPlayerPosition(beatrizz.current.position);
       pathfindingHelper.setTargetPosition(target);
       pathfindingHelper.setPath(navPath);
-      console.log(navPath);
     }
   };
 
@@ -178,41 +174,44 @@ export function Beatrizz(props) {
 
       // Determine movement based on dialogue played
       const dialogueKey = Object.keys(currentDialogueObject)[0];
-      console.log(dialogueKey);
       switch (dialogueKey) {
         case "intro_2":
           // Move Beatrizz to "reception" position
-          console.log("intro_2");
           createNavpath(POSITIONS.reception);
           break;
         case "reception_2":
-          console.log("reception_2");
           createNavpath(POSITIONS.seahorse_1);
           break;
         case "seahorse_1":
-          console.log("seahorse_1");
           createNavpath(POSITIONS.seahorse_2);
           break;
         case "seahorse_2":
-          console.log("seahorse_2");
           createNavpath(POSITIONS.seahorse_3);
           break;
         case "seahorse_3":
-          console.log("seahorse_3");
           createNavpath(POSITIONS.xray);
           break;
         case "xray":
-          console.log("xray");
           createNavpath(POSITIONS.mri);
           break;
         default:
+          // end of tour audio
           break;
       }
     }
   });
 
+  // const { p } = useControls("pointere", {
+  //   p: { value: { x: 0, y: 0.2, z: 0 }, step: 0.1 },
+  // });
+
   return (
     <>
+      {/* <primitive object={navmeshModel.scene} /> */}
+      {/* <mesh position={[p.x, p.y, p.z]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="hotpink" />
+      </mesh> */}
       <Trail>
         <group ref={beatrizz} position={[18, 0, -3]} rotation-y={-2}>
           {/* <Sparkles color={"yellow"} size={3} /> */}
