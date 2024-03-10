@@ -4,6 +4,12 @@ import { useControls } from "leva";
 import { useEffect } from "react";
 import Outside from "./Outside/Outside";
 import { Physics } from "@react-three/rapier";
+import LectureTheatre from "./LectureTheatre/LectureTheatre";
+import Lobby from "./Lobby/Lobby";
+import { BuildingsCombined } from "./BuildingsCombined";
+import { Beatrizz } from "./Tour/Beatrizz";
+import { MRITV } from "./MRI/MRITV";
+import { XRayTV } from "./XRay/XRayTV";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -12,6 +18,25 @@ const World = () => {
       step: 0.1,
     },
     orbitControlsEnabled: true,
+  });
+
+  const { playerPosition, playerRotation } = useControls("Player", {
+    playerPosition: {
+      value: {
+        x: 15,
+        y: 1.6,
+        z: 0,
+      },
+      step: 0.1,
+    },
+    playerRotation: {
+      value: {
+        x: 0,
+        y: 0,
+        z: 0,
+      },
+      step: 0.01,
+    },
   });
 
   const { isPresenting, player } = useXR();
@@ -32,18 +57,13 @@ const World = () => {
       />
       <Physics>
         <Outside />
-        {/* <BuildingsTemplate /> */}
-        {/* <LectureTheatre /> */}
-        {/* <Lobby />
-        <MainConcourse /> */}
-        {/* <LobbyAndMainConcourse /> */}
-        {/* <LobbyAndMainConcourse4 /> */}
-        {/* <SeahorseContainer /> */}
-        {/* <MRIRoom /> */}
-        {/* <XRayRoom /> */}
-        {/* <XrayDepartment /> */}
-        {/* <MRIDepartment /> */}
-        {/* <Hoppy scale={0.5} position-z={-3} /> */}
+        <LectureTheatre />
+        <Lobby />
+        <BuildingsCombined />
+        <Beatrizz />
+        <MRITV />
+        <XRayTV />
+        {/* <TestTV /> */}
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
@@ -51,20 +71,6 @@ const World = () => {
 };
 
 export default World;
-
-// import { OrbitControls, Sky } from "@react-three/drei";
-// import { TeleportationPlane, useInteraction, useXR } from "@react-three/xr";
-// import { useControls } from "leva";
-// import { useEffect, useRef } from "react";
-// import Outside from "./Outside/Outside";
-// import { Physics } from "@react-three/rapier";
-// import LectureTheatre from "./LectureTheatre/LectureTheatre";
-// import Lobby from "./Lobby/Lobby";
-// import { BuildingsCombined } from "./BuildingsCombined";
-// import { Beatrizz } from "./Tour/Beatrizz";
-// import { MRITV } from "./MRI/MRITV";
-// import { TestTV } from "./TestTV";
-// import { XRayTV } from "./XRay/XRayTV";
 
 // const World = () => {
 //   const { cameraTarget, orbitControlsEnabled } = useControls({
