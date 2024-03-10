@@ -28,18 +28,16 @@ const POSITIONS = {
 };
 
 const DIALOGUE = [
-  new Audio("/sounds/beatrizz/beatrizz-intro-1.mp3"),
-  new Audio("/sounds/beatrizz/beatrizz-intro-2.mp3"),
-  new Audio("/sounds/beatrizz/beatrizz-reception-1.mp3"),
-  new Audio("/sounds/beatrizz/beatrizz-reception-2.mp3"),
-  new Audio("/sounds/beatrizz/seahorse-1.mp3"),
-  new Audio("/sounds/beatrizz/seahorse-2.mp3"),
-  new Audio("/sounds/beatrizz/seahorse-3.mp3"),
-  new Audio("/sounds/beatrizz/beatrizz-xray.mp3"),
-  new Audio("/sounds/beatrizz/beatrizz-mri.mp3"),
+  { intro_1: new Audio("/sounds/beatrizz/beatrizz-intro-1.mp3") },
+  { intro_2: new Audio("/sounds/beatrizz/beatrizz-intro-2.mp3") },
+  { reception_1: new Audio("/sounds/beatrizz/beatrizz-reception-1.mp3") },
+  { reception_2: new Audio("/sounds/beatrizz/beatrizz-reception-2.mp3") },
+  { seahorse_1: new Audio("/sounds/beatrizz/beatrizz-seahorse-1.mp3") },
+  { seahorse_2: new Audio("/sounds/beatrizz/beatrizz-seahorse-2.mp3") },
+  { seahorse_3: new Audio("/sounds/beatrizz/beatrizz-seahorse-3.mp3") },
+  { xray: new Audio("/sounds/beatrizz/beatrizz-xray.mp3") },
+  { mri: new Audio("/sounds/beatrizz/beatrizz-mri.mp3") },
 ];
-
-DIALOGUE[0].play();
 
 const pathfinding = new Pathfinding();
 const pathfindingHelper = new PathfindingHelper();
@@ -115,6 +113,7 @@ export function Beatrizz(props) {
       pathfindingHelper.setPlayerPosition(beatrizz.current.position);
       pathfindingHelper.setTargetPosition(target);
       pathfindingHelper.setPath(navPath);
+      console.log(navPath);
     }
   };
 
@@ -163,34 +162,35 @@ export function Beatrizz(props) {
 
   useInteraction(beatrizz, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
-    console.log(interactionEvent);
     // beatrizz.current.lookAt(player.position);
 
     // Play the next dialogue
-    const currentDialogue = DIALOGUE.shift();
-    console.log(currentDialogue);
-    if (currentDialogue) {
+    const currentDialogueObject = DIALOGUE.shift();
+    if (currentDialogueObject) {
+      const currentDialogue = Object.values(currentDialogueObject)[0];
+
       currentDialogue.play();
 
       // Determine movement based on dialogue played
-      switch (currentDialogue.src) {
-        case "/sounds/beatrizz/beatrizz-intro-2.mp3":
+      const dialogueKey = Object.keys(currentDialogueObject)[0];
+      switch (dialogueKey) {
+        case "intro_2":
           // Move Beatrizz to "reception" position
           createNavpath(POSITIONS.reception);
           break;
-        case "/sounds/beatrizz/beatrizz-reception-2.mp3":
+        case "reception_2":
           createNavpath(POSITIONS.seahorse_1);
           break;
-        case "/sounds/beatrizz/beatrizz-seahorse-1.mp3":
+        case "seahorse_1":
           createNavpath(POSITIONS.seahorse_2);
           break;
-        case "/sounds/beatrizz/beatrizz-seahorse-2.mp3":
+        case "seahorse_2":
           createNavpath(POSITIONS.seahorse_3);
           break;
-        case "/sounds/beatrizz/beatrizz-seahorse-3.mp3":
+        case "seahorse_3":
           createNavpath(POSITIONS.xray);
           break;
-        case "/sounds/beatrizz/beatrizz-xray.mp3":
+        case "xray":
           createNavpath(POSITIONS.mri);
           break;
         default:
