@@ -107,7 +107,12 @@ export function Beatrizz(props) {
       ZONE,
       groupId
     );
+    console.log("closest node", closestNode.centroid);
+    console.log("target", target);
+    console.log("group id", groupId);
+    console.log("zone", ZONE);
     navPath = pathfinding.findPath(closestNode.centroid, target, ZONE, groupId);
+    console.log("navpath", navPath);
     if (navPath) {
       pathfindingHelper.reset();
       pathfindingHelper.setPlayerPosition(beatrizz.current.position);
@@ -173,24 +178,31 @@ export function Beatrizz(props) {
 
       // Determine movement based on dialogue played
       const dialogueKey = Object.keys(currentDialogueObject)[0];
+      console.log(dialogueKey);
       switch (dialogueKey) {
         case "intro_2":
           // Move Beatrizz to "reception" position
+          console.log("intro_2");
           createNavpath(POSITIONS.reception);
           break;
         case "reception_2":
+          console.log("reception_2");
           createNavpath(POSITIONS.seahorse_1);
           break;
         case "seahorse_1":
+          console.log("seahorse_1");
           createNavpath(POSITIONS.seahorse_2);
           break;
         case "seahorse_2":
+          console.log("seahorse_2");
           createNavpath(POSITIONS.seahorse_3);
           break;
         case "seahorse_3":
+          console.log("seahorse_3");
           createNavpath(POSITIONS.xray);
           break;
         case "xray":
+          console.log("xray");
           createNavpath(POSITIONS.mri);
           break;
         default:
