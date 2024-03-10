@@ -10,6 +10,7 @@ import { BuildingsCombined } from "./BuildingsCombined";
 import { Beatrizz } from "./Tour/Beatrizz";
 import { MRITV } from "./MRI/MRITV";
 import { XRayTV } from "./XRay/XRayTV";
+import { Roof } from "./Roof";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -64,6 +65,7 @@ const World = () => {
         <MRITV />
         <XRayTV />
         {/* <TestTV /> */}
+        <Roof />
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
