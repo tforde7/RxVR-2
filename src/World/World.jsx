@@ -62,9 +62,10 @@ const World = () => {
         <LectureTheatre />
         <Lobby />
         <BuildingsCombined />
-        {/* <Beatrizz /> */}
+        <Beatrizz />
         <MRITV />
         <XRayTV />
+        {/* <TestTV /> */}
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>

@@ -4,7 +4,13 @@ Command: npx gltfjsx@6.2.16 beatrizz.glb
 */
 
 import React, { useEffect, useRef } from "react";
-import { useGLTF, useAnimations, Float, Trail } from "@react-three/drei";
+import {
+  useGLTF,
+  useAnimations,
+  Float,
+  Trail,
+  Sparkles,
+} from "@react-three/drei";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
@@ -67,169 +73,74 @@ export function Beatrizz(props) {
   navmeshModel.scene.position.set(55.6, 0, -14.8);
   navmeshModel.scene.rotation.set(0, 0.28, 0);
 
-  useEffect(() => {
-    // PATHFINDING
+  // useEffect(() => {
+  //   // PATHFINDING
 
-    if (navmeshModel && !navmesh) {
-      navmesh = navmeshModel.nodes.navmesh;
-      pathfinding.setZoneData(ZONE, Pathfinding.createZone(navmesh.geometry));
-    }
+  //   if (navmeshModel && !navmesh) {
+  //     navmesh = navmeshModel.nodes.navmesh;
+  //     pathfinding.setZoneData(ZONE, Pathfinding.createZone(navmesh.geometry));
+  //   }
 
-    gl.domElement.addEventListener("click", (event) => {
-      const mouse = new THREE.Vector2();
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  //   gl.domElement.addEventListener("click", (event) => {
+  //     const mouse = new THREE.Vector2();
+  //     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObject(navmesh);
+  //     raycaster.setFromCamera(mouse, camera);
+  //     const intersects = raycaster.intersectObject(navmesh);
 
-      const moveToPosition = (target) => {
-        groupId = pathfinding.getGroup("tour", agent.current.position);
-        const closestNode = pathfinding.getClosestNode(
-          agent.current.position,
-          ZONE,
-          groupId
-        );
+  //     const moveToPosition = (target) => {
+  //       groupId = pathfinding.getGroup("tour", agent.current.position);
+  //       const closestNode = pathfinding.getClosestNode(
+  //         agent.current.position,
+  //         ZONE,
+  //         groupId
+  //       );
 
-        console.log("closestNode", closestNode.centroid);
-        console.log("target", target);
-        console.log("ZONE", ZONE);
-        console.log("groupId", groupId);
+  //       navPath = pathfinding.findPath(
+  //         closestNode.centroid,
+  //         target,
+  //         ZONE,
+  //         groupId
+  //       );
 
-        navPath = pathfinding.findPath(
-          closestNode.centroid,
-          target,
-          ZONE,
-          groupId
-        );
+  //       navPath = pathfinding.findPath();
+  //       if (navPath) {
+  //         pathfindingHelper.reset();
+  //         pathfindingHelper.setPlayerPosition(agent.current.position);
+  //         pathfindingHelper.setTargetPosition(target);
+  //         pathfindingHelper.setPath(navPath);
+  //       }
+  //     };
 
-        navPath = pathfinding.findPath();
-        console.log("navPath", navPath);
-        if (navPath) {
-          pathfindingHelper.reset();
-          pathfindingHelper.setPlayerPosition(agent.current.position);
-          pathfindingHelper.setTargetPosition(target);
-          pathfindingHelper.setPath(navPath);
-        }
-      };
+  //     const move = (deltaTime) => {
+  //       if (!navPath || navPath.length <= 0) return;
 
-      const move = (deltaTime) => {
-        if (!navPath || navPath.length <= 0) return;
+  //       let targetPosition = navPath[0];
+  //       const distance = targetPosition
+  //         .clone()
+  //         .sub(agent.current.position)
+  //         .length();
+  //       if (distance.lengthSq() > 0.5 * 0.05) {
+  //         distance.normalize();
+  //         agent.current.position.add(distance.multiplyScalar(deltaTime));
+  //       } else {
+  //         navPath.shift();
+  //       }
+  //     };
 
-        let targetPosition = navPath[0];
-        const distance = targetPosition
-          .clone()
-          .sub(agent.current.position)
-          .length();
-        if (distance.lengthSq() > 0.5 * 0.05) {
-          distance.normalize();
-          agent.current.position.add(distance.multiplyScalar(deltaTime));
-        } else {
-          navPath.shift();
-        }
-      };
-
-      if (intersects.length > 0) {
-        const point = intersects[0].point;
-        moveToPosition(point);
-      }
-    });
-  }, []);
+  //     if (intersects.length > 0) {
+  //       const point = intersects[0].point;
+  //       moveToPosition(point);
+  //     }
+  //   });
+  // }, []);
 
   // Function to smoothly rotate the character
   const rotateCharacter = (targetRotation) => {
     beatrizz.current.rotation.y +=
       (targetRotation - beatrizz.current.rotation.y) * 0.1; // Adjust the 0.1 for rotation speed
   };
-
-  useFrame(() => {
-    // move(clock.getDelta());
-  });
-
-  // const teleport = useTeleportation();
-
-  // useInteraction(seahorseButtonref, "onSelect", (event) => {
-  //   if (event.target.inputSource.handedness === "right") {
-  //     return;
-  //   }
-  //   buttonGroupRef.current.visible = false;
-  //   teleport(SEAHORSE_POSITION);
-  //   teleportObject(rabbitRef.current, rabbitSeahorsePosition);
-  //   teleportObject(buttonGroupRef.current, buttonSeahorsePosition);
-  // });
-
-  // useInteraction(mriButtonref, "onSelect", (event) => {
-  //   if (event.target.inputSource.handedness === "right") {
-  //     return;
-  //   }
-  //   buttonGroupRef.current.visible = false;
-  //   teleport(MRI_POSITION);
-  //   teleportObject(rabbitRef.current, rabbitMriPosition);
-  //   teleportObject(buttonGroupRef.current, buttonMriPosition);
-  // });
-
-  // useInteraction(xrayButtonref, "onSelect", (event) => {
-  //   if (event.target.inputSource.handedness === "right") {
-  //     return;
-  //   }
-  //   buttonGroupRef.current.visible = false;
-  //   teleport(XRAY_POSITION);
-  //   teleportObject(rabbitRef.current, rabbitXrayPosition);
-  //   teleportObject(buttonGroupRef.current, buttonXrayPosition);
-  // });
-
-  // useInteraction(rabbitRef, "onSelect", (event) => {
-  //   if (event.target.inputSource.handedness === "right") {
-  //     return;
-  //   }
-
-  //   if (rabbitRef.current.position.z === rabbitSeahorsePosition[2]) {
-  //     // play seahorse clip
-  //     seahorseOutpatientDialogue.play();
-  //     seahorseOutpatientDialogue.onended = () => {
-  //       whereToNextDialogue.play();
-  //       whereToNextDialogue.onended = () => {
-  //         //show buttons
-  //         buttonGroupRef.current.visible = true;
-  //       };
-  //     };
-  //   } else if (rabbitRef.current.position.z === rabbitMriPosition[2]) {
-  //     // play mri clip
-  //     mriDialogue.play();
-  //     mriDialogue.onended = () => {
-  //       whereToNextDialogue.play();
-  //       whereToNextDialogue.onended = () => {
-  //         //show buttons
-  //         buttonGroupRef.current.visible = true;
-  //       };
-  //     };
-  //   } else if (rabbitRef.current.position.z === rabbitXrayPosition[2]) {
-  //     // play xray clip
-  //     xrayDialogue.play();
-  //     xrayDialogue.onended = () => {
-  //       whereToNextDialogue.play();
-  //       whereToNextDialogue.onended = () => {
-  //         //show buttons
-  //         buttonGroupRef.current.visible = true;
-  //       };
-  //     };
-  //   } else {
-  //     // play welcome clip
-  //     rabbitWelcome.play().then(() => {
-  //       idleAnimation.stop();
-  //       waveAnimation.play();
-  //       waveAnimation.getMixer().addEventListener("finished", () => {
-  //         talkingAnimation.play();
-  //       });
-
-  //       rabbitWelcome.onended = () => {
-  //         talkingAnimation.stop();
-  //         buttonGroupRef.current.visible = true;
-  //         idleAnimation.play();
-  //       };
-  //     });
-  //   }
-  // });
 
   const agent = useRef();
 
@@ -244,6 +155,7 @@ export function Beatrizz(props) {
       <primitive object={pathfindingHelper} />
       <primitive object={navmeshModel.scene} /> */}
       <group position={[18, 0, -3]} rotation-y={-2}>
+        {/* <Sparkles color={"yellow"} size={3} /> */}
         <Trail
           width={0.2} // Width of the line
           color={"hotpink"} // Color of the line
@@ -262,7 +174,7 @@ export function Beatrizz(props) {
             // floatingRange={[1, 2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
           >
             <group ref={beatrizz} {...props} dispose={null} scale={0.5}>
-              {/* <group name="Root_Scene">
+              <group name="Root_Scene">
                 <group name="RootNode">
                   <group
                     name="CharacterArmature"
@@ -281,7 +193,7 @@ export function Beatrizz(props) {
                       geometry={nodes.Armabee_1.geometry}
                       material={materials.Armabee_Main}
                       skeleton={nodes.Armabee_1.skeleton}
-                    />
+                    ></skinnedMesh>
                     <skinnedMesh
                       name="Armabee_2"
                       geometry={nodes.Armabee_2.geometry}
@@ -308,7 +220,7 @@ export function Beatrizz(props) {
                     />
                   </group>
                 </group>
-              </group> */}
+              </group>
             </group>
           </Float>
         </Trail>

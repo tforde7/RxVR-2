@@ -14,6 +14,91 @@ import { useControls } from "leva";
 import { useFrame } from "@react-three/fiber";
 
 export function Hoppy(props) {
+  // const teleport = useTeleportation();
+
+  // useInteraction(seahorseButtonref, "onSelect", (event) => {
+  //   if (event.target.inputSource.handedness === "right") {
+  //     return;
+  //   }
+  //   buttonGroupRef.current.visible = false;
+  //   teleport(SEAHORSE_POSITION);
+  //   teleportObject(rabbitRef.current, rabbitSeahorsePosition);
+  //   teleportObject(buttonGroupRef.current, buttonSeahorsePosition);
+  // });
+
+  // useInteraction(mriButtonref, "onSelect", (event) => {
+  //   if (event.target.inputSource.handedness === "right") {
+  //     return;
+  //   }
+  //   buttonGroupRef.current.visible = false;
+  //   teleport(MRI_POSITION);
+  //   teleportObject(rabbitRef.current, rabbitMriPosition);
+  //   teleportObject(buttonGroupRef.current, buttonMriPosition);
+  // });
+
+  // useInteraction(xrayButtonref, "onSelect", (event) => {
+  //   if (event.target.inputSource.handedness === "right") {
+  //     return;
+  //   }
+  //   buttonGroupRef.current.visible = false;
+  //   teleport(XRAY_POSITION);
+  //   teleportObject(rabbitRef.current, rabbitXrayPosition);
+  //   teleportObject(buttonGroupRef.current, buttonXrayPosition);
+  // });
+
+  // useInteraction(rabbitRef, "onSelect", (event) => {
+  //   if (event.target.inputSource.handedness === "right") {
+  //     return;
+  //   }
+
+  //   if (rabbitRef.current.position.z === rabbitSeahorsePosition[2]) {
+  //     // play seahorse clip
+  //     seahorseOutpatientDialogue.play();
+  //     seahorseOutpatientDialogue.onended = () => {
+  //       whereToNextDialogue.play();
+  //       whereToNextDialogue.onended = () => {
+  //         //show buttons
+  //         buttonGroupRef.current.visible = true;
+  //       };
+  //     };
+  //   } else if (rabbitRef.current.position.z === rabbitMriPosition[2]) {
+  //     // play mri clip
+  //     mriDialogue.play();
+  //     mriDialogue.onended = () => {
+  //       whereToNextDialogue.play();
+  //       whereToNextDialogue.onended = () => {
+  //         //show buttons
+  //         buttonGroupRef.current.visible = true;
+  //       };
+  //     };
+  //   } else if (rabbitRef.current.position.z === rabbitXrayPosition[2]) {
+  //     // play xray clip
+  //     xrayDialogue.play();
+  //     xrayDialogue.onended = () => {
+  //       whereToNextDialogue.play();
+  //       whereToNextDialogue.onended = () => {
+  //         //show buttons
+  //         buttonGroupRef.current.visible = true;
+  //       };
+  //     };
+  //   } else {
+  //     // play welcome clip
+  //     rabbitWelcome.play().then(() => {
+  //       idleAnimation.stop();
+  //       waveAnimation.play();
+  //       waveAnimation.getMixer().addEventListener("finished", () => {
+  //         talkingAnimation.play();
+  //       });
+
+  //       rabbitWelcome.onended = () => {
+  //         talkingAnimation.stop();
+  //         buttonGroupRef.current.visible = true;
+  //         idleAnimation.play();
+  //       };
+  //     });
+  //   }
+  // });
+
   const hoppy = useGLTF("/models/hoppy/hoppy.glb");
 
   const { position } = useControls("Hoppy", {
