@@ -39,6 +39,8 @@ const DIALOGUE = [
   new Audio("/sounds/beatrizz/beatrizz-mri.mp3"),
 ];
 
+DIALOGUE[0].play();
+
 const pathfinding = new Pathfinding();
 const pathfindingHelper = new PathfindingHelper();
 const raycaster = new THREE.Raycaster();
@@ -159,10 +161,12 @@ export function Beatrizz(props) {
 
   useInteraction(beatrizz, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
+    console.log(interactionEvent);
     beatrizz.current.lookAt(player.position);
 
     // Play the next dialogue
     const currentDialogue = DIALOGUE.shift();
+    console.log(currentDialogue);
     if (currentDialogue) {
       currentDialogue.play();
 
