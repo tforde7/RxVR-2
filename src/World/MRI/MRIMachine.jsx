@@ -10,13 +10,39 @@ Title: Sci-Fi MRI
 
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useInteraction } from "@react-three/xr";
 
 export function MRIMachine(props) {
   const { nodes, materials } = useGLTF(
     "/models/mri/mri-machine-transformed.glb"
   );
+
+  const mriSound = new Audio("/sounds/sfx/mri.mp3");
+  const mriMachine = useRef();
+
+  let isHovered = false;
+
+  useInteraction(mriMachine.current, "onSqueeze", (event) => {
+    if (event.target.inputSource.handedness === "right") return;
+    if (mriSound.paused) {
+      mriSound.play();
+    } else {
+      mriSound.pause();
+    }
+  });
+
+  useInteraction(mriMachine.current, "onHover", (event) => {
+    if (event.target.inputSource.handedness === "right") return;
+    isHovered = true;
+  });
+
+  useInteraction(mriMachine.current, "", (event) => {
+    if (event.target.inputSource.handedness === "right") return;
+    isHovered = true;
+  });
+
   return (
-    <group {...props} dispose={null}>
+    <group ref={mriMachine} {...props} dispose={null}>
       <mesh
         geometry={nodes.Cube046_Cube054_None_0.geometry}
         material={materials.None}
