@@ -15,6 +15,7 @@ import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
 import { useInteraction } from "@react-three/xr";
+import { useControls } from "leva";
 
 const POSITIONS = {
   outside: [18, 0, -3],
@@ -71,71 +72,79 @@ export function Beatrizz(props) {
   }, [idleAnimation]);
 
   const navmeshModel = useGLTF("/models/navmesh/navmesh.glb");
-  navmeshModel.scene.position.set(55.6, 0, -14.8);
-  navmeshModel.scene.rotation.set(0, 0.28, 0);
+  // navmeshModel.scene.position.set(55.6, 0, -14.8);
+  // navmeshModel.scene.rotation.set(0, 0.28, 0);
 
-  // useEffect(() => {
-  //   // PATHFINDING
+  useEffect(() => {
+    // PATHFINDING
+    if (navmeshModel && !navmesh) {
+      console.log("navmeshModel", navmeshModel);
+      navmeshModel.scene.traverse((node) => {
+        if (node.isObject3D && node.children && node.children.length > 0) {
+          navmesh = node.children[0];
+          pathfinding.setZoneData(
+            ZONE,
+            Pathfinding.createZone(navmesh.geometry)
+          );
+        }
+      });
+    }
+    gl.domElement.addEventListener("click", (event) => {
+      const mouse = new THREE.Vector2();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(navmesh);
 
-  //   if (navmeshModel && !navmesh) {
-  //     navmesh = navmeshModel.nodes.navmesh;
-  //     pathfinding.setZoneData(ZONE, Pathfinding.createZone(navmesh.geometry));
-  //   }
+      const moveToPosition = (target) => {
+        groupId = pathfinding.getGroup("level1", beatrizz.current.position);
+        const closestNode = pathfinding.getClosestNode(
+          beatrizz.current.position,
+          ZONE,
+          groupId
+        );
+        navPath = pathfinding.findPath(
+          closestNode.centroid,
+          target,
+          ZONE,
+          groupId
+        );
+        if (navPath) {
+          pathfindingHelper.reset();
+          pathfindingHelper.setPlayerPosition(beatrizz.current.position);
+          pathfindingHelper.setTargetPosition(target);
+          pathfindingHelper.setPath(navPath);
+          console.log("navPath", navPath);
+        }
 
-  //   gl.domElement.addEventListener("click", (event) => {
-  //     const mouse = new THREE.Vector2();
-  //     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  //     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  //     raycaster.setFromCamera(mouse, camera);
-  //     const intersects = raycaster.intersectObject(navmesh);
-
-  //     const moveToPosition = (target) => {
-  //       groupId = pathfinding.getGroup("tour", agent.current.position);
-  //       const closestNode = pathfinding.getClosestNode(
-  //         agent.current.position,
-  //         ZONE,
-  //         groupId
-  //       );
-
-  //       navPath = pathfinding.findPath(
-  //         closestNode.centroid,
-  //         target,
-  //         ZONE,
-  //         groupId
-  //       );
-
-  //       navPath = pathfinding.findPath();
-  //       if (navPath) {
-  //         pathfindingHelper.reset();
-  //         pathfindingHelper.setPlayerPosition(agent.current.position);
-  //         pathfindingHelper.setTargetPosition(target);
-  //         pathfindingHelper.setPath(navPath);
-  //       }
-  //     };
-
-  //     const move = (deltaTime) => {
-  //       if (!navPath || navPath.length <= 0) return;
-
-  //       let targetPosition = navPath[0];
-  //       const distance = targetPosition
-  //         .clone()
-  //         .sub(agent.current.position)
-  //         .length();
-  //       if (distance.lengthSq() > 0.5 * 0.05) {
-  //         distance.normalize();
-  //         agent.current.position.add(distance.multiplyScalar(deltaTime));
-  //       } else {
-  //         navPath.shift();
-  //       }
-  //     };
-
-  //     if (intersects.length > 0) {
-  //       const point = intersects[0].point;
-  //       moveToPosition(point);
-  //     }
-  //   });
-  // }, []);
+        // navPath = pathfinding.findPath();
+        // if (navPath) {
+        //   pathfindingHelper.reset();
+        //   pathfindingHelper.setPlayerPosition(agent.current.position);
+        //   pathfindingHelper.setTargetPosition(target);
+        //   pathfindingHelper.setPath(navPath);
+        // }
+      };
+      //   const move = (deltaTime) => {
+      //     if (!navPath || navPath.length <= 0) return;
+      //     let targetPosition = navPath[0];
+      //     const distance = targetPosition
+      //       .clone()
+      //       .sub(agent.current.position)
+      //       .length();
+      //     if (distance.lengthSq() > 0.5 * 0.05) {
+      //       distance.normalize();
+      //       agent.current.position.add(distance.multiplyScalar(deltaTime));
+      //     } else {
+      //       navPath.shift();
+      //     }
+      //   };
+      if (intersects.length > 0) {
+        const point = intersects[0].point;
+        moveToPosition(point);
+      }
+    });
+  }, []);
 
   // Function to smoothly rotate the character
   const rotateCharacter = (targetRotation) => {
@@ -151,16 +160,30 @@ export function Beatrizz(props) {
     hoverSound.play();
   });
 
+  const { navmeshPosition } = useControls("Navmesh", {
+    navmeshPosition: {
+      value: {
+        x: 55.6,
+        y: 0,
+        z: -14.8,
+      },
+      step: 0.1,
+    },
+  });
+
   return (
     <>
-      {/* <group ref={agent}>
+      <group ref={agent}>
         <mesh position={[18, 0, 0]}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial color={"hotpink"} />
         </mesh>
       </group>
       <primitive object={pathfindingHelper} />
-      <primitive object={navmeshModel.scene} /> */}
+      <primitive
+        object={navmeshModel.scene}
+        // position={[navmeshPosition.x, navmeshPosition.y, navmeshPosition.z]}
+      />
       <group position={[18, 0, -3]} rotation-y={-2}>
         {/* <Sparkles color={"yellow"} size={3} /> */}
         <Trail

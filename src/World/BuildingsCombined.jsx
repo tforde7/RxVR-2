@@ -8,6 +8,7 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import { RigidBody } from "@react-three/rapier";
+import { Quaternion, Vector3 } from "three";
 
 export function BuildingsCombined(props) {
   const { nodes, materials } = useGLTF(
@@ -28,6 +29,12 @@ export function BuildingsCombined(props) {
       step: 0.01,
     },
   });
+
+  const quaternion = new Quaternion().setFromAxisAngle(
+    new Vector3(0, 1, 0),
+    0.28
+  );
+  console.log(quaternion);
 
   return (
     <RigidBody type="fixed" colliders="trimesh">
