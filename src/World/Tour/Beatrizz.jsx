@@ -51,7 +51,7 @@ let navPath;
 let navmesh;
 
 export function Beatrizz(props) {
-  const { gl, clock, camera } = useThree();
+  const { gl, camera } = useThree();
 
   const beatrizz = useRef();
   const { nodes, materials, animations } = useGLTF(
@@ -72,13 +72,10 @@ export function Beatrizz(props) {
   }, [idleAnimation]);
 
   const navmeshModel = useGLTF("/models/navmesh/navmesh.glb");
-  // navmeshModel.scene.position.set(55.6, 0, -14.8);
-  // navmeshModel.scene.rotation.set(0, 0.28, 0);
 
   useEffect(() => {
     // PATHFINDING
     if (navmeshModel && !navmesh) {
-      console.log("navmeshModel", navmeshModel);
       navmeshModel.scene.traverse((node) => {
         if (node.isObject3D && node.children && node.children.length > 0) {
           navmesh = node.children[0];
@@ -96,7 +93,7 @@ export function Beatrizz(props) {
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObject(navmesh);
 
-      const moveToPosition = (target) => {
+      const createNavpath = (target) => {
         groupId = pathfinding.getGroup("level1", beatrizz.current.position);
         const closestNode = pathfinding.getClosestNode(
           beatrizz.current.position,
@@ -114,45 +111,49 @@ export function Beatrizz(props) {
           pathfindingHelper.setPlayerPosition(beatrizz.current.position);
           pathfindingHelper.setTargetPosition(target);
           pathfindingHelper.setPath(navPath);
-          console.log("navPath", navPath);
         }
-
-        // navPath = pathfinding.findPath();
-        // if (navPath) {
-        //   pathfindingHelper.reset();
-        //   pathfindingHelper.setPlayerPosition(agent.current.position);
-        //   pathfindingHelper.setTargetPosition(target);
-        //   pathfindingHelper.setPath(navPath);
-        // }
       };
-      //   const move = (deltaTime) => {
-      //     if (!navPath || navPath.length <= 0) return;
-      //     let targetPosition = navPath[0];
-      //     const distance = targetPosition
-      //       .clone()
-      //       .sub(agent.current.position)
-      //       .length();
-      //     if (distance.lengthSq() > 0.5 * 0.05) {
-      //       distance.normalize();
-      //       agent.current.position.add(distance.multiplyScalar(deltaTime));
-      //     } else {
-      //       navPath.shift();
-      //     }
-      //   };
       if (intersects.length > 0) {
         const point = intersects[0].point;
-        moveToPosition(point);
+        createNavpath(point);
       }
     });
   }, []);
 
-  // Function to smoothly rotate the character
-  const rotateCharacter = (targetRotation) => {
-    beatrizz.current.rotation.y +=
-      (targetRotation - beatrizz.current.rotation.y) * 0.1; // Adjust the 0.1 for rotation speed
+  const move = (deltaTime) => {
+    if (!navPath || navPath.length <= 0) return;
+
+    let targetPosition = navPath[0];
+    const distance = targetPosition.clone().sub(beatrizz.current.position);
+
+    // Check if the distance is greater than a very small value before normalization
+    if (distance.lengthSq() > 0.05 * 0.5) {
+      distance.normalize();
+
+      // Smooth rotation to face the direction of movement
+      const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
+        new THREE.Vector3(0, 0, 1),
+        distance
+      );
+
+      // Check if deltaTime is valid (greater than zero)
+      if (deltaTime > 0) {
+        const moveDistance = distance.multiplyScalar(deltaTime * 5);
+
+        // Apply slerp rotation
+        beatrizz.current.quaternion.slerp(targetQuaternion, 0.1); // Adjust the interpolation factor for smoother or faster rotation
+
+        // Add moveDistance to the current position
+        beatrizz.current.position.add(moveDistance);
+      }
+    } else {
+      navPath.shift();
+    }
   };
 
-  const agent = useRef();
+  useFrame((state, delta) => {
+    move(delta);
+  });
 
   const hoverSound = new Audio("/sounds/sfx/pop.mp3");
 
@@ -173,37 +174,16 @@ export function Beatrizz(props) {
 
   return (
     <>
-      <group ref={agent}>
-        <mesh position={[18, 0, 0]}>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshBasicMaterial color={"hotpink"} />
-        </mesh>
-      </group>
-      <primitive object={pathfindingHelper} />
-      <primitive
-        object={navmeshModel.scene}
-        // position={[navmeshPosition.x, navmeshPosition.y, navmeshPosition.z]}
-      />
-      <group position={[18, 0, -3]} rotation-y={-2}>
-        {/* <Sparkles color={"yellow"} size={3} /> */}
-        <Trail
-          width={0.2} // Width of the line
-          color={"hotpink"} // Color of the line
-          length={1} // Length of the line
-          decay={1} // How fast the line fades away
-          local={false} // Wether to use the target's world or local positions
-          stride={0} // Min distance between previous and current point
-          interval={1} // Number of frames to wait before next calculation
-          target={undefined} // Optional target. This object will produce the trail.
-          attenuation={(width) => width} // A function to define the width in each point along it.
-        >
+      <Trail>
+        <group ref={beatrizz} position={[18, 0, -3]} rotation-y={-2}>
+          {/* <Sparkles color={"yellow"} size={3} /> */}
           <Float
             speed={3} // Animation speed, defaults to 1
             rotationIntensity={1} // XYZ rotation intensity, defaults to 1
             // floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
             // floatingRange={[1, 2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
           >
-            <group ref={beatrizz} {...props} dispose={null} scale={0.5}>
+            <group {...props} dispose={null} scale={0.5}>
               <group name="Root_Scene">
                 <group name="RootNode">
                   <group
@@ -253,8 +233,8 @@ export function Beatrizz(props) {
               </group>
             </group>
           </Float>
-        </Trail>
-      </group>
+        </group>
+      </Trail>
     </>
   );
 }
