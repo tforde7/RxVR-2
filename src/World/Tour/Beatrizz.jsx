@@ -14,7 +14,7 @@ import {
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
-import { useInteraction } from "@react-three/xr";
+import { useInteraction, useXR } from "@react-three/xr";
 import { useControls } from "leva";
 
 const POSITIONS = {
@@ -153,6 +153,8 @@ export function Beatrizz(props) {
     move(delta);
   });
 
+  const { player } = useXR();
+
   const hoverSound = new Audio("/sounds/sfx/pop.mp3");
 
   useInteraction(beatrizz, "onHover", () => {
@@ -162,7 +164,7 @@ export function Beatrizz(props) {
   useInteraction(beatrizz, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     console.log(interactionEvent);
-    beatrizz.current.lookAt(player.position);
+    // beatrizz.current.lookAt(player.position);
 
     // Play the next dialogue
     const currentDialogue = DIALOGUE.shift();

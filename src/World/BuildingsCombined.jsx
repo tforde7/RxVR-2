@@ -34,7 +34,6 @@ export function BuildingsCombined(props) {
     new Vector3(0, 1, 0),
     0.28
   );
-  console.log(quaternion);
 
   return (
     <RigidBody type="fixed" colliders="trimesh">
