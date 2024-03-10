@@ -20,20 +20,14 @@ export function XRayBoard(props) {
       <mesh
         geometry={nodes.box001_low_box_0.geometry}
         material={materials.material}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={0.05}
       />
       <mesh
         geometry={nodes.x_1_low_XRAY_0.geometry}
         material={materials.XRAY}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={0.05}
       />
       <mesh
         geometry={nodes.glass_low_glass_0.geometry}
         material={materials.glass}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={0.05}
       />
     </group>
   );
