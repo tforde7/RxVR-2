@@ -65,13 +65,13 @@ export function XRayTV(props) {
 
   return (
     <group
-      ref={tv}
       {...props}
       dispose={null}
       position={[position.x, position.y, position.z]}
       rotation-y={rotation}
     >
       <mesh
+        ref={tv}
         geometry={nodes.Tv1.geometry}
         material={materials.Tv1}
         rotation={[-Math.PI / 2, 0, 0]}
