@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useControls } from "leva";
+import { useInteraction } from "@react-three/xr";
 
 export function XRayTV(props) {
   const { nodes, materials } = useGLTF("/models/tv/tv.glb");
@@ -53,10 +54,18 @@ export function XRayTV(props) {
     },
   });
 
+  const tv = useRef();
+  useInteraction(tv, "onSqueeze", (interactionEvent) => {
+    if (interactionEvent.controller.inputSource.handedness === "left") {
+      togglePlay();
+    }
+  });
+
   if (!videoTexture) return null;
 
   return (
     <group
+      ref={tv}
       {...props}
       dispose={null}
       position={[position.x, position.y, position.z]}
@@ -68,7 +77,7 @@ export function XRayTV(props) {
         rotation={[-Math.PI / 2, 0, 0]}
         scale={50}
       ></mesh>
-      <mesh onClick={togglePlay} scale={0.035} position-z={0.01}>
+      <mesh scale={0.035} position-z={0.01}>
         <planeGeometry args={[9, 16]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
