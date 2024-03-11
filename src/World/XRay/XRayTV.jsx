@@ -44,10 +44,15 @@ export function XRayTV(props) {
   //   togglePlay();
   // });
 
-  // useInteraction(tvRef, "onHover", () => handleHover(true));
-  // useInteraction(tvRef, "onBlur", () => handleHover(false));
+  useInteraction(tvRef, "onHover", () => handleHover(true));
+  useInteraction(tvRef, "onBlur", () => handleHover(false));
 
   useInteraction(videoMeshRef, "onSelect", (interactionEvent) => {
+    // if (interactionEvent.target.inputSource.handedness === "right") return;
+    togglePlay();
+  });
+
+  useInteraction(tvRef, "onSelect", (interactionEvent) => {
     // if (interactionEvent.target.inputSource.handedness === "right") return;
     togglePlay();
   });
@@ -96,24 +101,28 @@ export function XRayTV(props) {
   if (!videoTexture) return null;
 
   return (
-    <group
-      {...props}
-      dispose={null}
-      position={[position.x, position.y, position.z]}
-      rotation-y={rotation}
-      ref={tvRef}
-      scale={0.25}
-    >
-      {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
-      {/* <mesh
-        geometry={nodes.group1257628551.geometry}
-        material={materials.PaletteMaterial001}
-      /> */}
+    <>
       <mesh position-z={0.01} ref={videoMeshRef}>
         <boxGeometry args={[9, 16, 0.01]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
-    </group>
+      <group
+        {...props}
+        dispose={null}
+        position={[position.x, position.y, position.z]}
+        rotation-y={rotation}
+        ref={tvRef}
+        scale={0.25}
+      >
+        {isHovered && (
+          <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />
+        )}
+        <mesh
+          geometry={nodes.group1257628551.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      </group>
+    </>
   );
 }
 
