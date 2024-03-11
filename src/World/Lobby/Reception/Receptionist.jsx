@@ -11,23 +11,23 @@ export default function Receptionist() {
 
   console.log(receptionist);
 
-  // function findAnimations(obj) {
-  //   if (obj.animations && obj.animations.length > 0) {
-  //     return obj.animations;
-  //   } else {
-  //     if (obj.children) {
-  //       return obj.children.forEach(findAnimations);
-  //     }
-  //   }
-  // }
+  function findAnimations(obj) {
+    if (obj.animations && obj.animations.length > 0) {
+      return obj.animations;
+    } else {
+      if (obj.children) {
+        return obj.children.forEach(findAnimations);
+      }
+    }
+  }
 
-  // // Call findAnimations on the root of the object tree
-  // const animationClips = findAnimations(receptionist);
+  // Call findAnimations on the root of the object tree
+  const animationClips = findAnimations(receptionist);
 
-  // const animations = useAnimations(animationClips, receptionist.scene);
-  // if (animations.actions) {
-  //   animations.actions["Female_Idle"].play();
-  // }
+  const animations = useAnimations(animationClips, receptionist.scene);
+  if (animations.actions) {
+    animations.actions["Female_Idle"].play();
+  }
 
   // Define fixed values for scale, position, and rotation
   const scale = [0.3, 0.3, 0.3]; // Example scale
