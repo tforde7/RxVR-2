@@ -65,7 +65,7 @@ const World = () => {
         <MRITV />
         <XRayTV />
         {/* <TestTV /> */}
-        <Roof />
+        {/* <Roof /> */}
       </Physics>
       {isPresenting && <TeleportationPlane rightHand />}
     </>
