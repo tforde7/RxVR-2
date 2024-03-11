@@ -12,6 +12,7 @@ export default function Receptionist() {
   const receptionistRef = useRef();
 
   const [isHovered, setIsHovered] = useState(false); // Track hover state
+  const [dialoguePlaying, setDialoguePlaying] = useState(false); // Track dialogue state
 
   // Hover interaction handler
   const handleHover = (hovering) => {
@@ -23,8 +24,6 @@ export default function Receptionist() {
 
   useInteraction(receptionistRef, "onHover", () => handleHover(true));
   useInteraction(receptionistRef, "onBlur", () => handleHover(false));
-
-  let dialoguePlaying = false;
 
   const { actions } = useAnimations(animations, receptionistRef);
 
@@ -60,10 +59,10 @@ export default function Receptionist() {
     if (dialoguePlaying) return;
 
     receptionistHello.play();
-    dialoguePlaying = true;
+    setDialoguePlaying(true);
 
     receptionistHello.onended = () => {
-      dialoguePlaying = false;
+      setDialoguePlaying(false);
     };
   });
 
@@ -74,7 +73,7 @@ export default function Receptionist() {
           <primitive ref={receptionistRef} object={scene} scale={scale} />
         </RigidBody>
         {isHovered && (
-          <Sparkles color={"yellow"} size={3} position={[0, 2, 0]} />
+          <Sparkles color={"yellow"} size={1} position={[0, 1, 0]} />
         )}
       </group>
     </>
