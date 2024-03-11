@@ -13,6 +13,7 @@ export function XRayTV(props) {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef();
+  const videoMeshRef = useRef();
   const tvRef = useRef();
   const [isHovered, setIsHovered] = useState(false); // Track hover state
 
@@ -42,7 +43,7 @@ export function XRayTV(props) {
   useInteraction(tvRef, "onHover", () => handleHover(true));
   useInteraction(tvRef, "onBlur", () => handleHover(false));
 
-  useInteraction(tvRef, "onSelect", (interactionEvent) => {
+  useInteraction(videoMeshRef, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     togglePlay();
   });
@@ -104,7 +105,7 @@ export function XRayTV(props) {
         geometry={nodes.group1257628551.geometry}
         material={materials.PaletteMaterial001}
       /> */}
-      <mesh position-z={0.01}>
+      <mesh position-z={0.01} ref={videoMeshRef}>
         <planeGeometry args={[9, 16]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
