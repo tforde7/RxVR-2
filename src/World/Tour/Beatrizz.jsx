@@ -164,7 +164,7 @@ export function Beatrizz(props) {
 
   useInteraction(beatrizz, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
-    beatrizz.current.lookAt(player.position);
+    beatrizz.current.lookAt(player.children[0].position);
 
     // Play the next dialogue
     if (DIALOGUE.length === 0) return;
