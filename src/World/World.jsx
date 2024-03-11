@@ -62,7 +62,7 @@ const World = () => {
         <Lobby />
         <BuildingsCombined />
         <Beatrizz />
-        <MRITV />
+        {/* <MRITV /> */}
         <XRayTV />
         {/* <TestTV /> */}
         {/* <Roof /> */}

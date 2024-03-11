@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useControls } from "leva";
 
 export function MRITV(props) {
-  const { nodes, materials } = useGLTF("/models/tv/tv.glb");
+  const { nodes, materials } = useGLTF("/models/tv/tv-transformed.glb");
 
   const [videoTexture, setVideoTexture] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -56,22 +56,25 @@ export function MRITV(props) {
   if (!videoTexture) return null;
 
   return (
-    <group
-      {...props}
-      dispose={null}
-      position={[position.x, position.y, position.z]}
-      rotation-y={rotation}
-    >
-      <mesh
-        geometry={nodes.Tv1.geometry}
-        material={materials.Tv1}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={50}
-      ></mesh>
-      <mesh onClick={togglePlay} scale={0.035} position-z={0.01}>
-        <planeGeometry args={[9, 16]} />
-        <meshBasicMaterial map={videoTexture} />
-      </mesh>
-    </group>
+    <></>
+    // <group
+    //   {...props}
+    //   dispose={null}
+    //   position={[position.x, position.y, position.z]}
+    //   rotation-y={rotation}
+    // >
+    //   <mesh
+    //     geometry={nodes.Tv1.geometry}
+    //     material={materials.Tv1}
+    //     rotation={[-Math.PI / 2, 0, 0]}
+    //     scale={50}
+    //   ></mesh>
+    //   <mesh onClick={togglePlay} scale={0.035} position-z={0.01}>
+    //     <planeGeometry args={[9, 16]} />
+    //     <meshBasicMaterial map={videoTexture} />
+    //   </mesh>
+    // </group>
   );
 }
+
+useGLTF.preload("/models/tv/tv-transformed.glb");

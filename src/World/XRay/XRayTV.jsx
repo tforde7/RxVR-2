@@ -5,7 +5,7 @@ import { useControls } from "leva";
 import { useInteraction } from "@react-three/xr";
 
 export function XRayTV(props) {
-  const { nodes, materials } = useGLTF("/models/tv/tv.glb");
+  const { nodes, materials } = useGLTF("/models/tv/tv-transformed.glb");
 
   const [videoTexture, setVideoTexture] = useState(null);
 
@@ -87,15 +87,13 @@ export function XRayTV(props) {
       dispose={null}
       position={[position.x, position.y, position.z]}
       rotation-y={rotation}
+      ref={tvRef}
     >
       {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
       <mesh
-        ref={tvRef}
-        geometry={nodes.Tv1.geometry}
-        material={materials.Tv1}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={50}
-      ></mesh>
+        geometry={nodes.group1257628551.geometry}
+        material={materials.PaletteMaterial001}
+      />
       <mesh scale={0.035} position-z={0.01}>
         <planeGeometry args={[9, 16]} />
         <meshBasicMaterial map={videoTexture} />
@@ -103,3 +101,5 @@ export function XRayTV(props) {
     </group>
   );
 }
+
+useGLTF.preload("/models/tv/tv-transformed.glb");
