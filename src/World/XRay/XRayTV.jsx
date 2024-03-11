@@ -29,14 +29,14 @@ export function XRayTV(props) {
 
   const togglePlay = () => {
     console.log("togglePlay");
-    const videoElement = videoRef.current;
-    if (videoElement.paused) {
-      videoElement.play();
-      setIsPlaying(true);
-    } else {
-      videoElement.pause();
-      setIsPlaying(false);
-    }
+    // const videoElement = videoRef.current;
+    // if (videoElement.paused) {
+    //   videoElement.play();
+    //   setIsPlaying(true);
+    // } else {
+    //   videoElement.pause();
+    //   setIsPlaying(false);
+    // }
   };
 
   useInteraction(tvRef, "onHover", () => handleHover(true));
@@ -48,38 +48,47 @@ export function XRayTV(props) {
   });
 
   useEffect(() => {
-    const videoElement = document.createElement("video");
-    videoElement.src = "/videos/xray/video.mp4";
-    videoElement.crossOrigin = "anonymous";
-
-    const texture = new THREE.VideoTexture(videoElement);
-    setVideoTexture(texture);
-
-    videoRef.current = videoElement;
-
-    return () => {
-      videoElement.pause();
-      videoElement.removeAttribute("src");
-      videoElement.load();
-    };
+    // const videoElement = document.createElement("video");
+    // videoElement.src = "/videos/xray/video.mp4";
+    // videoElement.crossOrigin = "anonymous";
+    // const texture = new THREE.VideoTexture(videoElement);
+    // setVideoTexture(texture);
+    // videoRef.current = videoElement;
+    // return () => {
+    //   videoElement.pause();
+    //   videoElement.removeAttribute("src");
+    //   videoElement.load();
+    // };
   }, []);
 
   const { position, rotation } = useControls("XRay TV", {
+    // position: {
+    //   value: {
+    //     x: 123,
+    //     y: 2.1,
+    //     z: -14.6,
+    //   },
+    //   step: 0.1,
+    // },
+    // rotation: {
+    //   value: -2.86,
+    //   step: 0.01,
+    // },
     position: {
       value: {
-        x: 123,
-        y: 2.1,
-        z: -14.6,
+        x: 0,
+        y: 0,
+        z: 0,
       },
       step: 0.1,
     },
     rotation: {
-      value: -2.86,
+      value: 0,
       step: 0.01,
     },
   });
 
-  if (!videoTexture) return null;
+  // if (!videoTexture) return null;
 
   return (
     <group
