@@ -1,30 +1,63 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import { useInteraction } from "@react-three/xr";
+import { useInteraction, useXR } from "@react-three/xr";
 
 export default function ReceptionistM1() {
-  const receptionist = useGLTF("/models/npcs/Low Poly Men/Business Man.glb");
+  const worker = useGLTF("/models/npcs/Low Poly Men/Business Man.glb");
 
-  //     function findAnimations(obj) {
-  //       if (obj.animations && obj.animations.length > 0) {
-  //         return obj.animations;
-  //       } else {
-  //         if (obj.children) {
-  //           return obj.children.forEach(findAnimations);
-  //         }
-  //       }
-  //     }
+  console.log(worker);
 
-  //   Call findAnimations on the root of the object tree
-  //     const animationClips = findAnimations(receptionist);
+  const workerRef = useRef();
 
-  //     const animations = useAnimations(animationClips, receptionist.scene);
-  //     if (animations.actions) {
-  //       animations.actions["Take 001"].play();
-  //     }
+  const [isHovered, setIsHovered] = useState(false); // Track hover state
+  const [dialoguePlaying, setDialoguePlaying] = useState(false); // Track dialogue state
 
+  // Hover interaction handler
+
+  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
+  interactionSound.volume = 0.5;
+
+  const handleHover = (hovering) => {
+    setIsHovered(hovering);
+    if (hovering) {
+      interactionSound.play();
+    }
+  };
+
+  useInteraction(workerRef, "onHover", () => handleHover(true));
+  useInteraction(workerRef, "onBlur", () => handleHover(false));
+
+  const { actions } = useAnimations(worker.animations, workerRef);
+
+  const ACTION_PREFIX = "HumanArmature|";
+
+  const idleAnimation = actions[ACTION_PREFIX + "Man_Idle"];
+
+  useEffect(() => {
+    if (idleAnimation) {
+      idleAnimation.play();
+    }
+  }, [idleAnimation]);
+
+  const audio = new Audio("/sounds/receptionist-xray/receptionist-xray.mp3");
+
+  const { player } = useXR();
+
+  useInteraction(workerRef, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    if (dialoguePlaying) return;
+
+    workerRef.current.lookAt(player.children[0].position);
+
+    audio.play();
+    setDialoguePlaying(true);
+
+    audio.onended = () => {
+      setDialoguePlaying(false);
+    };
+  });
   // Define fixed values for scale, position, and rotation
   const scale = [0.9, 0.9, 0.9]; // Example scale
   const position = [124.5, 0, 17]; // Example position
@@ -46,7 +79,7 @@ export default function ReceptionistM1() {
       <RigidBody colliders="hull" type="fixed">
         <primitive
           //ref={receptionistRef}
-          object={receptionist.scene}
+          object={worker.scene}
           scale={scale}
           position={position}
           rotation={rotation}
