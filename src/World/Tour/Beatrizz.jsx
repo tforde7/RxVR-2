@@ -66,7 +66,7 @@ export function Beatrizz(props) {
   const [isHovered, setIsHovered] = useState(false); // Track hover state
 
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
-  interactionSound.volume = 0.5;
+  interactionSound.volume = 0.3;
 
   const handleHover = (hovering) => {
     setIsHovered(hovering);

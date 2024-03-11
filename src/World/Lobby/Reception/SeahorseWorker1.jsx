@@ -16,7 +16,7 @@ export default function Worker1() {
   // Hover interaction handler
 
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
-  interactionSound.volume = 0.5;
+  interactionSound.volume = 0.3;
 
   const handleHover = (hovering) => {
     setIsHovered(hovering);
