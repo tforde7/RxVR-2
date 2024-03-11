@@ -82,11 +82,10 @@ export function MRIMachine(props) {
   const togglePlay = () => {
     if (isPlaying) {
       mriSound.pause();
-      setIsPlaying(false);
     } else {
       mriSound.play();
-      setIsPlaying(true);
     }
+    setIsPlaying(!isPlaying); // Toggle the state
   };
 
   useInteraction(mriRef, "onHover", (interactionEvent) => {
