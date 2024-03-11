@@ -57,6 +57,8 @@ import React, { useRef, useState } from "react";
 import { Sparkles, useGLTF } from "@react-three/drei";
 import { useInteraction } from "@react-three/xr";
 
+const mriSound = new Audio("/sounds/sfx/mri.mp3");
+
 export function MRIMachine(props) {
   const { nodes, materials } = useGLTF(
     "/models/mri/mri-machine-transformed.glb"
@@ -69,8 +71,6 @@ export function MRIMachine(props) {
 
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
   interactionSound.volume = 0.5;
-
-  const mriSound = new Audio("/sounds/sfx/mri.mp3");
 
   const handleHover = (hovering) => {
     setIsHovered(hovering);
