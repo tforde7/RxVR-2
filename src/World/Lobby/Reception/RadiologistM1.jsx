@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useInteraction, useXR } from "@react-three/xr";
 
 export default function RadiologistM1() {
-  const { worker } = useGLTF("/models/npcs/Low Poly Women/Woman.glb");
+  const worker = useGLTF("/models/npcs/Low Poly Women/Woman.glb");
 
   console.log(worker);
 
@@ -93,7 +93,7 @@ export default function RadiologistM1() {
     <>
       <group position={position} rotation={rotation}>
         <RigidBody colliders="hull" type="fixed">
-          <primitive ref={worker} object={worker.scene} scale={scale} />
+          <primitive ref={workerRef} object={worker.scene} scale={scale} />
         </RigidBody>
         {/* {isHovered && (
           <Sparkles color={"yellow"} size={1} position={[0, 1, 0]} />
