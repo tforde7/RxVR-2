@@ -21,16 +21,13 @@ export function XRayTV(props) {
   interactionSound.volume = 0.5;
 
   const handleHover = (hovering) => {
-    console.log("handleHover");
     setIsHovered(hovering);
     if (hovering) {
       interactionSound.play();
-      togglePlay();
     }
   };
 
   const togglePlay = () => {
-    console.log("togglePlay");
     const videoElement = videoRef.current;
     if (videoElement.paused) {
       videoElement.play();
@@ -41,20 +38,17 @@ export function XRayTV(props) {
     }
   };
 
-  // window.addEventListener("click", () => {
-  //   togglePlay();
-  // });
-
-  useInteraction(tvRef, "onHover", () => handleHover(true));
-  useInteraction(tvRef, "onBlur", () => handleHover(false));
-
-  useInteraction(videoMeshRef, "onSelect", (interactionEvent) => {
-    // if (interactionEvent.target.inputSource.handedness === "right") return;
-    togglePlay();
+  useInteraction(tvRef, "onHover", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    handleHover(true);
+  });
+  useInteraction(tvRef, "onBlur", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    handleHover(false);
   });
 
   useInteraction(tvRef, "onSelect", (interactionEvent) => {
-    // if (interactionEvent.target.inputSource.handedness === "right") return;
+    if (interactionEvent.target.inputSource.handedness === "right") return;
     togglePlay();
   });
 
@@ -72,32 +66,35 @@ export function XRayTV(props) {
     };
   }, []);
 
-  const { position, rotation } = useControls("XRay TV", {
-    // position: {
-    //   value: {
-    //     x: 123,
-    //     y: 2.1,
-    //     z: -14.6,
-    //   },
-    //   step: 0.1,
-    // },
-    // rotation: {
-    //   value: -2.86,
-    //   step: 0.01,
-    // },
-    position: {
-      value: {
-        x: 0.4,
-        y: 2,
-        z: -1.1,
+  const { position, rotation, videoPosition, videoRotation } = useControls(
+    "XRay TV",
+    {
+      position: {
+        value: {
+          x: 123,
+          y: 2.1,
+          z: -14.6,
+        },
+        step: 0.1,
       },
-      step: 0.1,
-    },
-    rotation: {
-      value: 0,
-      step: 0.01,
-    },
-  });
+      rotation: {
+        value: -2.86,
+        step: 0.01,
+      },
+      videoPosition: {
+        value: {
+          x: 123,
+          y: 2.1,
+          z: -14.6,
+        },
+        step: 0.1,
+      },
+      videoRotation: {
+        value: -2.86,
+        step: 0.01,
+      },
+    }
+  );
 
   // if (!videoTexture) return null;
 
@@ -118,7 +115,12 @@ export function XRayTV(props) {
           geometry={nodes.group1257628551.geometry}
           material={materials.PaletteMaterial001}
         />
-        <mesh position={[0.4, 0, 1]} ref={videoMeshRef} scale={0.1}>
+        <mesh
+          position={[videoPosition.x, videoPosition.y, videoPosition.z]}
+          rotation-y={videoRotation}
+          ref={videoMeshRef}
+          scale={0.1}
+        >
           <boxGeometry args={[9, 16, 0.01]} />
           <meshBasicMaterial map={videoTexture} />
         </mesh>
