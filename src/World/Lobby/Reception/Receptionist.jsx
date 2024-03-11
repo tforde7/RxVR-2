@@ -2,7 +2,7 @@ import { Sparkles, useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import { useInteraction } from "@react-three/xr";
+import { useInteraction, useXR } from "@react-three/xr";
 
 export default function Receptionist() {
   const { animations, scene } = useGLTF(
@@ -55,9 +55,13 @@ export default function Receptionist() {
     interactionSound.play();
   });
 
+  const { player } = useXR();
+
   useInteraction(receptionistRef, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     if (dialoguePlaying) return;
+
+    receptionistRef.current.lookat(player.children[0].position);
 
     receptionistHello.play();
     setDialoguePlaying(true);

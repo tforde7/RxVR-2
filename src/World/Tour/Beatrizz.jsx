@@ -97,7 +97,7 @@ export function Beatrizz(props) {
     // // Apply slerp rotation
     // beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
 
-    // beatrizz.current.lookAt(player.children[0].position);
+    beatrizz.current.lookAt(player.children[0].position);
 
     // Play the next dialogue
     if (DIALOGUE.length === 0) return;
