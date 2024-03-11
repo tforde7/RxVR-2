@@ -54,15 +54,17 @@ let navmesh;
 export function Beatrizz(props) {
   const { gl, camera } = useThree();
 
-  const beatrizz = useRef();
   const { nodes, materials, animations } = useGLTF(
     "/models/npcs/beatrizz/beatrizz.glb"
   );
 
+  // INTERACTION
+
+  const beatrizz = useRef();
+
   const [dialoguePlaying, setDialoguePlaying] = useState(false); // Track dialogue state
   const [isHovered, setIsHovered] = useState(false); // Track hover state
 
-  // Hover interaction handler
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
   interactionSound.volume = 0.5;
 
@@ -75,6 +77,53 @@ export function Beatrizz(props) {
 
   useInteraction(beatrizz, "onHover", () => handleHover(true));
   useInteraction(beatrizz, "onBlur", () => handleHover(false));
+
+  const { player } = useXR();
+
+  useInteraction(beatrizz, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    if (dialoguePlaying) return;
+
+    beatrizz.current.lookAt(player.children[0].position);
+
+    // Play the next dialogue
+    if (DIALOGUE.length === 0) return;
+    const currentDialogueObject = DIALOGUE.shift();
+    const currentDialogue = Object.values(currentDialogueObject)[0];
+
+    currentDialogue.play();
+    setDialoguePlaying(true);
+
+    currentDialogue.onended = () => {
+      // Determine movement based on dialogue played
+      const dialogueKey = Object.keys(currentDialogueObject)[0];
+      switch (dialogueKey) {
+        case "intro_2":
+          // Move Beatrizz to "reception" position
+          createNavpath(POSITIONS.reception);
+          break;
+        case "reception_2":
+          createNavpath(POSITIONS.seahorse_1);
+          break;
+        case "seahorse_1":
+          createNavpath(POSITIONS.seahorse_2);
+          break;
+        case "seahorse_2":
+          createNavpath(POSITIONS.seahorse_3);
+          break;
+        case "seahorse_3":
+          createNavpath(POSITIONS.xray);
+          break;
+        case "xray":
+          createNavpath(POSITIONS.mri);
+          break;
+        default:
+          break;
+      }
+
+      setDialoguePlaying(false);
+    };
+  });
 
   // ANIMATIONS
 
@@ -174,13 +223,24 @@ export function Beatrizz(props) {
     move(delta);
   });
 
-  const { player } = useXR();
-
   useInteraction(beatrizz, "onSelect", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     if (dialoguePlaying) return;
 
-    beatrizz.current.lookAt(player.children[0].position);
+    // Face the camera
+    // Calculate direction vector from character to camera
+    const characterPosition = beatrizz.current.position.clone();
+    const cameraPosition = player.children[0].position.clone();
+    const direction = cameraPosition.sub(characterPosition).normalize();
+    // Calculate target quaternion for slerp rotation
+    const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 0, 1),
+      direction
+    );
+    // Apply slerp rotation
+    beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
+
+    // beatrizz.current.lookAt(player.children[0].position);
 
     // Play the next dialogue
     if (DIALOGUE.length === 0) return;
@@ -220,10 +280,6 @@ export function Beatrizz(props) {
       setDialoguePlaying(false);
     };
   });
-
-  // const { p } = useControls("pointere", {
-  //   p: { value: { x: 0, y: 0.2, z: 0 }, step: 0.1 },
-  // });
 
   return (
     <>
