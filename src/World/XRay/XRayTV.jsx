@@ -25,19 +25,20 @@ export function XRayTV(props) {
     setIsHovered(hovering);
     if (hovering) {
       interactionSound.play();
+      togglePlay();
     }
   };
 
   const togglePlay = () => {
     console.log("togglePlay");
     const videoElement = videoRef.current;
-    // if (videoElement.paused) {
-    //   videoElement.play();
-    //   setIsPlaying(true);
-    // } else {
-    //   videoElement.pause();
-    //   setIsPlaying(false);
-    // }
+    if (videoElement.paused) {
+      videoElement.play();
+      setIsPlaying(true);
+    } else {
+      videoElement.pause();
+      setIsPlaying(false);
+    }
   };
 
   // window.addEventListener("click", () => {
@@ -64,11 +65,11 @@ export function XRayTV(props) {
     const texture = new THREE.VideoTexture(videoElement);
     setVideoTexture(texture);
     videoRef.current = videoElement;
-    // return () => {
-    //   videoElement.pause();
-    //   videoElement.removeAttribute("src");
-    //   videoElement.load();
-    // };
+    return () => {
+      videoElement.pause();
+      videoElement.removeAttribute("src");
+      videoElement.load();
+    };
   }, []);
 
   const { position, rotation } = useControls("XRay TV", {
@@ -102,10 +103,6 @@ export function XRayTV(props) {
 
   return (
     <>
-      <mesh position-z={[3, 3, 3]} ref={videoMeshRef} scale={0.25}>
-        <boxGeometry args={[9, 16, 0.01]} />
-        <meshBasicMaterial map={videoTexture} />
-      </mesh>
       <group
         {...props}
         dispose={null}
@@ -121,6 +118,10 @@ export function XRayTV(props) {
           geometry={nodes.group1257628551.geometry}
           material={materials.PaletteMaterial001}
         />
+        <mesh position={[0.4, 0, 1]} ref={videoMeshRef} scale={0.1}>
+          <boxGeometry args={[9, 16, 0.01]} />
+          <meshBasicMaterial map={videoTexture} />
+        </mesh>
       </group>
     </>
   );
