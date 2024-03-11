@@ -60,8 +60,8 @@ export default function Worker1() {
 
   // Define fixed values for scale, position, and rotation
   const scale = [0.3, 0.3, 0.3]; // Example scale
-  const position = [53, 0, -60]; // Example position
-  const rotation = [0, 0.88, 0]; // Example rotation (in radians)
+  const position = [75, 0, -40]; // Example position
+  const rotation = [0, -0.88, 0]; // Example rotation (in radians)
 
   return (
     <>

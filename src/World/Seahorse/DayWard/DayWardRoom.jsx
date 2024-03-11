@@ -71,6 +71,11 @@ const DayWardRoom = (props) => {
             rotation={[0, -1.28, 0]}
             scale={0.0015}
           />
+          <ActualSeahorse
+            position={[80.8, 2.3, -25.5]}
+            rotation={[0, -1.28, 0]}
+            scale={0.0005}
+          />
         </group>
         <group>
           <Curtains

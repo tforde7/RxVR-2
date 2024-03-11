@@ -10,6 +10,8 @@ import { WoodenRoundTable } from "./WoodenRoundTable";
 import { DeskCorner } from "./DeskCorner";
 import { SingleBin } from "./SingleBin";
 import { WoodenChair } from "../ConsultingRooms/WoodenChair";
+import { PlantBlack } from "./HouseplantBlack";
+import { PlantPink } from "./HouseplantPink";
 
 const XRayRooms = (props) => {
   return (
@@ -47,6 +49,11 @@ const XRayRooms = (props) => {
             rotation={[-Math.PI / 2, 0, 0.28]}
             scale={0.07}
           />
+          <DoctorTable
+            position={[74.5, 0.65, -22.5]}
+            rotation={[-Math.PI / 2, 0, 1.88]}
+            scale={0.07}
+          />
         </group>
         <group>
           <CoatRack position={[125, 0.1, -6]} rotation={[0, 0, 0]} scale={2} />
@@ -73,8 +80,13 @@ const XRayRooms = (props) => {
         </group>
         <group>
           <SingleBin
-            position={[127.8, 0, -14]}
+            position={[127.8, 0.15, -14]}
             rotation={[0, 0.28, 0]}
+            scale={3}
+          />
+          <SingleBin
+            position={[68, 0.15, -8]}
+            rotation={[0, -1.28, 0]}
             scale={3}
           />
         </group>
@@ -83,6 +95,16 @@ const XRayRooms = (props) => {
             position={[124, 0, -14]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={40}
+          />
+          <WoodenRoundTable
+            position={[68, 0.1, -10]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={60}
+          />
+          <WoodenRoundTable
+            position={[61, 0.1, -9]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={60}
           />
         </group>
         <group>
@@ -101,6 +123,21 @@ const XRayRooms = (props) => {
             rotation={[-Math.PI / 2, 0, 0.28]}
             scale={70}
           />
+          <WoodenChair
+            position={[68, 0, -11.5]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={70}
+          />
+          <WoodenChair
+            position={[69, 0, -9]}
+            rotation={[-Math.PI / 2, 0, -1.88]}
+            scale={70}
+          />
+          <WoodenChair
+            position={[62, 0, -9]}
+            rotation={[-Math.PI / 2, 0, -1.88]}
+            scale={70}
+          />
         </group>
         <group>
           <Cabinet
@@ -113,12 +150,61 @@ const XRayRooms = (props) => {
             rotation={[-Math.PI / 2, 0, -2.88]}
             scale={0.8}
           />
+          <Cabinet
+            position={[60, 1.5, -15.25]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[68, 1.5, -17.5]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[76, 1.5, -19.8]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[84, 1.5, -22.15]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[92, 1.5, -24.45]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
         </group>
         <group>
           <GreenChair
             position={[122, 0.21, -19.25]}
             rotation={[0, 0, 0]}
             scale={0.6}
+          />
+        </group>
+        <group>
+          <PlantBlack
+            position={[69, 0, -7.5]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={120}
+          />
+          <PlantBlack
+            position={[62, 0, -6]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={120}
+          />
+        </group>
+        <group>
+          <PlantPink
+            position={[68, 0, -13]}
+            rotation={[0, 0, 0]}
+            scale={0.008}
+          />
+          <PlantPink
+            position={[61, 0, -11]}
+            rotation={[0, 0, 0]}
+            scale={0.008}
           />
         </group>
       </group>
