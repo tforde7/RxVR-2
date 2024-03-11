@@ -34,7 +34,7 @@ const ConsultantExamRoom = (props) => {
         </group>
         <group>
           <WheelChair
-            position={[123, 0.3, -16]}
+            position={[123, 0.3, -17]}
             rotation={[0, -1.78, 0]}
             scale={0.004}
           />
