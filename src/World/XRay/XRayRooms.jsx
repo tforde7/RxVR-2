@@ -113,6 +113,31 @@ const XRayRooms = (props) => {
             rotation={[-Math.PI / 2, 0, -2.88]}
             scale={0.8}
           />
+          <Cabinet
+            position={[60, 1.5, -15.25]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[68, 1.5, -17.5]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[76, 1.5, -19.8]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[84, 1.5, -22.15]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
+          <Cabinet
+            position={[92, 1.5, -24.45]}
+            rotation={[-Math.PI / 2, 0, 0.28]}
+            scale={0.8}
+          />
         </group>
         <group>
           <GreenChair
