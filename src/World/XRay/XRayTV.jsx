@@ -29,14 +29,14 @@ export function XRayTV(props) {
 
   const togglePlay = () => {
     console.log("togglePlay");
-    // const videoElement = videoRef.current;
-    // if (videoElement.paused) {
-    //   videoElement.play();
-    //   setIsPlaying(true);
-    // } else {
-    //   videoElement.pause();
-    //   setIsPlaying(false);
-    // }
+    const videoElement = videoRef.current;
+    if (videoElement.paused) {
+      videoElement.play();
+      setIsPlaying(true);
+    } else {
+      videoElement.pause();
+      setIsPlaying(false);
+    }
   };
 
   useInteraction(tvRef, "onHover", () => handleHover(true));
@@ -48,17 +48,17 @@ export function XRayTV(props) {
   });
 
   useEffect(() => {
-    // const videoElement = document.createElement("video");
-    // videoElement.src = "/videos/xray/video.mp4";
-    // videoElement.crossOrigin = "anonymous";
-    // const texture = new THREE.VideoTexture(videoElement);
-    // setVideoTexture(texture);
-    // videoRef.current = videoElement;
-    // return () => {
-    //   videoElement.pause();
-    //   videoElement.removeAttribute("src");
-    //   videoElement.load();
-    // };
+    const videoElement = document.createElement("video");
+    videoElement.src = "/videos/xray/video.mp4";
+    videoElement.crossOrigin = "anonymous";
+    const texture = new THREE.VideoTexture(videoElement);
+    setVideoTexture(texture);
+    videoRef.current = videoElement;
+    return () => {
+      videoElement.pause();
+      videoElement.removeAttribute("src");
+      videoElement.load();
+    };
   }, []);
 
   const { position, rotation } = useControls("XRay TV", {
@@ -76,9 +76,9 @@ export function XRayTV(props) {
     // },
     position: {
       value: {
-        x: 0,
-        y: 0,
-        z: 0,
+        x: 0.4,
+        y: 2,
+        z: -1.1,
       },
       step: 0.1,
     },
@@ -88,7 +88,7 @@ export function XRayTV(props) {
     },
   });
 
-  // if (!videoTexture) return null;
+  if (!videoTexture) return null;
 
   return (
     <group
@@ -97,13 +97,14 @@ export function XRayTV(props) {
       position={[position.x, position.y, position.z]}
       rotation-y={rotation}
       ref={tvRef}
+      scale={0.25}
     >
       {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
-      <mesh
+      {/* <mesh
         geometry={nodes.group1257628551.geometry}
         material={materials.PaletteMaterial001}
-      />
-      <mesh scale={0.035} position-z={0.01}>
+      /> */}
+      <mesh position-z={0.01}>
         <planeGeometry args={[9, 16]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
