@@ -58,12 +58,12 @@ export function XRayTV(props) {
   });
 
   useEffect(() => {
-    // const videoElement = document.createElement("video");
-    // videoElement.src = "/videos/xray/video.mp4";
-    // videoElement.crossOrigin = "anonymous";
-    // const texture = new THREE.VideoTexture(videoElement);
-    // setVideoTexture(texture);
-    // videoRef.current = videoElement;
+    const videoElement = document.createElement("video");
+    videoElement.src = "/videos/xray/video.mp4";
+    videoElement.crossOrigin = "anonymous";
+    const texture = new THREE.VideoTexture(videoElement);
+    setVideoTexture(texture);
+    videoRef.current = videoElement;
     // return () => {
     //   videoElement.pause();
     //   videoElement.removeAttribute("src");
@@ -98,7 +98,7 @@ export function XRayTV(props) {
     },
   });
 
-  if (!videoTexture) return null;
+  // if (!videoTexture) return null;
 
   return (
     <>
