@@ -83,14 +83,14 @@ export function XRayTV(props) {
       },
       videoPosition: {
         value: {
-          x: 123,
-          y: 2.1,
-          z: -14.6,
+          x: -0.5,
+          y: 0.4,
+          z: 0.2,
         },
         step: 0.1,
       },
       videoRotation: {
-        value: -2.86,
+        value: 0,
         step: 0.01,
       },
     }
@@ -119,7 +119,7 @@ export function XRayTV(props) {
           position={[videoPosition.x, videoPosition.y, videoPosition.z]}
           rotation-y={videoRotation}
           ref={videoMeshRef}
-          scale={0.1}
+          scale={0.135}
         >
           <boxGeometry args={[9, 16, 0.01]} />
           <meshBasicMaterial map={videoTexture} />
