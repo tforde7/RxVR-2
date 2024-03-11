@@ -1,4 +1,4 @@
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { Sparkles, useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import React, { useEffect } from "react";
 import { useRef } from "react";
@@ -55,15 +55,12 @@ export default function Receptionist() {
 
   return (
     <>
-      <RigidBody colliders="hull" type="fixed">
-        <primitive
-          ref={receptionistRef}
-          object={scene}
-          scale={scale}
-          position={position}
-          rotation={rotation}
-        />
-      </RigidBody>
+      <group position={position} rotation={rotation}>
+        <RigidBody colliders="hull" type="fixed">
+          <primitive ref={receptionistRef} object={scene} scale={scale} />
+        </RigidBody>
+        <Sparkles color={"yellow"} size={3} />
+      </group>
     </>
   );
 }
