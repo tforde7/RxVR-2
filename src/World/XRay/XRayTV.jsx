@@ -31,13 +31,13 @@ export function XRayTV(props) {
   const togglePlay = () => {
     console.log("togglePlay");
     const videoElement = videoRef.current;
-    if (videoElement.paused) {
-      videoElement.play();
-      setIsPlaying(true);
-    } else {
-      videoElement.pause();
-      setIsPlaying(false);
-    }
+    // if (videoElement.paused) {
+    //   videoElement.play();
+    //   setIsPlaying(true);
+    // } else {
+    //   videoElement.pause();
+    //   setIsPlaying(false);
+    // }
   };
 
   // window.addEventListener("click", () => {
@@ -58,17 +58,17 @@ export function XRayTV(props) {
   });
 
   useEffect(() => {
-    const videoElement = document.createElement("video");
-    videoElement.src = "/videos/xray/video.mp4";
-    videoElement.crossOrigin = "anonymous";
-    const texture = new THREE.VideoTexture(videoElement);
-    setVideoTexture(texture);
-    videoRef.current = videoElement;
-    return () => {
-      videoElement.pause();
-      videoElement.removeAttribute("src");
-      videoElement.load();
-    };
+    // const videoElement = document.createElement("video");
+    // videoElement.src = "/videos/xray/video.mp4";
+    // videoElement.crossOrigin = "anonymous";
+    // const texture = new THREE.VideoTexture(videoElement);
+    // setVideoTexture(texture);
+    // videoRef.current = videoElement;
+    // return () => {
+    //   videoElement.pause();
+    //   videoElement.removeAttribute("src");
+    //   videoElement.load();
+    // };
   }, []);
 
   const { position, rotation } = useControls("XRay TV", {
@@ -102,7 +102,7 @@ export function XRayTV(props) {
 
   return (
     <>
-      <mesh position-z={0.01} ref={videoMeshRef}>
+      <mesh position-z={[3, 3, 3]} ref={videoMeshRef} scale={0.25}>
         <boxGeometry args={[9, 16, 0.01]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
