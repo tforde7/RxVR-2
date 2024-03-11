@@ -1,54 +1,64 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useInteraction } from "@react-three/xr";
 
 export default function Receptionist() {
-  const receptionist = useGLTF(
+  const { animations, scene } = useGLTF(
     "/models/npcs/Low Poly Women/Woman in Dress.glb"
   );
 
-  //     function findAnimations(obj) {
-  //       if (obj.animations && obj.animations.length > 0) {
-  //         return obj.animations;
-  //       } else {
-  //         if (obj.children) {
-  //           return obj.children.forEach(findAnimations);
-  //         }
-  //       }
-  //     }
+  const receptionistRef = useRef();
 
-  //   Call findAnimations on the root of the object tree
-  //     const animationClips = findAnimations(receptionist);
+  let dialoguePlaying = false;
 
-  //     const animations = useAnimations(animationClips, receptionist.scene);
-  //     if (animations.actions) {
-  //       animations.actions["Take 001"].play();
-  //     }
+  const { actions } = useAnimations(animations, receptionistRef);
+
+  const ACTION_PREFIX = "HumanArmature|";
+
+  const idleAnimation = actions[ACTION_PREFIX + "Female_Idle"];
+
+  useEffect(() => {
+    if (idleAnimation) {
+      idleAnimation.play();
+    }
+  }, [idleAnimation]);
 
   // Define fixed values for scale, position, and rotation
   const scale = [0.3, 0.3, 0.3]; // Example scale
   const position = [34.5, 0, -5.25]; // Example position
   const rotation = [0, 0.28, 0]; // Example rotation (in radians)
 
-  //   const receptionistHello = new Audio("/sounds/doctor/doctor-hello.mp3");
+  const receptionistHello = new Audio(
+    "/sounds/receptionist-main/receptionist-main-hello.mp3"
+  );
 
-  //   const receptionistRef = useRef();
+  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
 
-  //   useInteraction(receptionistRef, "onSelect", (event) => {
-  //     if (event.target.inputSource.handedness === "right") {
-  //       return;
-  //     }
-  //     receptionistHello.play();
-  //   });
+  useInteraction(receptionistRef, "onHover", (interactionEvent) => {
+    if (interactionEvent.controller.inputSource.handedness === "right") return;
+    interactionSound.play();
+  });
+
+  useInteraction(receptionistRef, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    if (dialoguePlaying) return;
+
+    receptionistHello.play();
+    dialoguePlaying = true;
+
+    receptionistHello.onended = () => {
+      dialoguePlaying = false;
+    };
+  });
 
   return (
     <>
       <RigidBody colliders="hull" type="fixed">
         <primitive
-          //ref={receptionistRef}
-          object={receptionist.scene}
+          ref={receptionistRef}
+          object={scene}
           scale={scale}
           position={position}
           rotation={rotation}
