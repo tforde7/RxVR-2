@@ -72,7 +72,7 @@ export function XRayTV(props) {
       position: {
         value: {
           x: 123,
-          y: 2.1,
+          y: 1.7,
           z: -14.6,
         },
         step: 0.1,

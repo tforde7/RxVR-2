@@ -72,7 +72,7 @@ export function MRITV(props) {
       position: {
         value: {
           x: 123.5,
-          y: 2.1,
+          y: 1.7,
           z: 15.7,
         },
         step: 0.1,
