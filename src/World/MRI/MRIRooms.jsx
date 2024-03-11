@@ -19,11 +19,11 @@ const MRIRoom = (props) => {
             rotation={[-Math.PI / 2, 0, 0.28]}
             scale={1.2}
           />
-          <MRIMachine
+          {/* <MRIMachine
             position={[113, 0.09, 17]}
             rotation={[-Math.PI / 2, 0, -1.28]}
             scale={1.2}
-          />
+          /> */}
         </group>
         <group>
           <DeskCorner
