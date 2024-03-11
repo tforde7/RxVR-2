@@ -83,7 +83,6 @@ export function XRayTV(props) {
 
   return (
     <group
-      ref={tvRef}
       {...props}
       dispose={null}
       position={[position.x, position.y, position.z]}
@@ -91,6 +90,7 @@ export function XRayTV(props) {
     >
       {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
       <mesh
+        ref={tvRef}
         geometry={nodes.Tv1.geometry}
         material={materials.Tv1}
         rotation={[-Math.PI / 2, 0, 0]}
