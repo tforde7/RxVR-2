@@ -10,6 +10,7 @@ import Gym from "../../Seahorse/GymF/Gym";
 import ConsultantRoom from "../../ConsultingRooms/ConsultantRoom";
 import ConsultantExamRoom from "../../ConsultingRooms/ConsultingExamRoom";
 import XRayRooms from "../../XRay/XRayRooms";
+import DayWardRoom from "../../Seahorse/DayWard/DayWardRoom";
 
 const Reception = () => {
   const { waitingArea1Position, waitingArea1Rotation } = useControls(
@@ -59,6 +60,7 @@ const Reception = () => {
       <ConsultantRoom />
       <ConsultantExamRoom />
       <XRayRooms />
+      <DayWardRoom />
       <WaitingArea1
         position={[
           waitingArea1Position.x,
