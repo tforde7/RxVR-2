@@ -20,6 +20,7 @@ export function XRayTV(props) {
   interactionSound.volume = 0.5;
 
   const handleHover = (hovering) => {
+    console.log("handleHover");
     setIsHovered(hovering);
     if (hovering) {
       interactionSound.play();
@@ -27,6 +28,7 @@ export function XRayTV(props) {
   };
 
   const togglePlay = () => {
+    console.log("togglePlay");
     const videoElement = videoRef.current;
     if (videoElement.paused) {
       videoElement.play();
