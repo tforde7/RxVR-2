@@ -41,7 +41,7 @@ export default function ReceptionistM1() {
     }
   }, [idleAnimation]);
 
-  const audio = new Audio("/sounds/receptionist-xray/receptionist-xray.mp3");
+  const audio = new Audio("/sounds/receptionist-mri/receptionist-mri.mp3");
 
   const { player } = useXR();
 

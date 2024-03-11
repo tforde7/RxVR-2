@@ -41,7 +41,7 @@ export default function RadiographerM() {
     }
   }, [idleAnimation]);
 
-  const audio = new Audio("/sounds/radiographer-xray/radiographer-xray.mp3");
+  const audio = new Audio("/sounds/radiographer-mri/radiographer-mri.mp3");
 
   const { player } = useXR();
 
