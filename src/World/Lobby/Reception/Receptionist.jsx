@@ -37,7 +37,7 @@ export default function Receptionist() {
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
 
   useInteraction(receptionistRef, "onHover", (interactionEvent) => {
-    if (interactionEvent.controller.inputSource.handedness === "right") return;
+    if (interactionEvent.target.inputSource.handedness === "right") return;
     interactionSound.play();
   });
 
