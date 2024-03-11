@@ -35,6 +35,7 @@ export default function Receptionist() {
   );
 
   const interactionSound = new Audio("/sounds/sfx/pop.mp3");
+  interactionSound.volume = 0.5;
 
   useInteraction(receptionistRef, "onHover", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
