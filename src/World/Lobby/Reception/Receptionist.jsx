@@ -61,7 +61,7 @@ export default function Receptionist() {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     if (dialoguePlaying) return;
 
-    receptionistRef.current.lookat(player.children[0].position);
+    receptionistRef.current.lookAt(player.children[0].position);
 
     receptionistHello.play();
     setDialoguePlaying(true);
