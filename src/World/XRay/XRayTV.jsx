@@ -40,11 +40,15 @@ export function XRayTV(props) {
     }
   };
 
-  useInteraction(tvRef, "onHover", () => handleHover(true));
-  useInteraction(tvRef, "onBlur", () => handleHover(false));
+  // window.addEventListener("click", () => {
+  //   togglePlay();
+  // });
+
+  // useInteraction(tvRef, "onHover", () => handleHover(true));
+  // useInteraction(tvRef, "onBlur", () => handleHover(false));
 
   useInteraction(videoMeshRef, "onSelect", (interactionEvent) => {
-    if (interactionEvent.target.inputSource.handedness === "right") return;
+    // if (interactionEvent.target.inputSource.handedness === "right") return;
     togglePlay();
   });
 
@@ -106,7 +110,7 @@ export function XRayTV(props) {
         material={materials.PaletteMaterial001}
       /> */}
       <mesh position-z={0.01} ref={videoMeshRef}>
-        <planeGeometry args={[9, 16]} />
+        <boxGeometry args={[9, 16, 0.01]} />
         <meshBasicMaterial map={videoTexture} />
       </mesh>
     </group>
