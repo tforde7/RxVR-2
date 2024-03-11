@@ -80,12 +80,12 @@ export function MRIMachine(props) {
   };
 
   const togglePlay = () => {
-    if (mriSound.paused) {
-      mriSound.play();
-      setIsPlaying(true);
-    } else {
+    if (isPlaying) {
       mriSound.pause();
       setIsPlaying(false);
+    } else {
+      mriSound.play();
+      setIsPlaying(true);
     }
   };
 
@@ -109,7 +109,7 @@ export function MRIMachine(props) {
         geometry={nodes.Cube046_Cube054_None_0.geometry}
         material={materials.None}
       />
-      {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
+      {isHovered && <Sparkles color={"yellow"} size={3} position={[0, 0, 0]} />}
     </group>
   );
 }
