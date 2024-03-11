@@ -53,41 +53,63 @@
 
 // useGLTF.preload("/models/mri/mri-machine-transformed.glb");
 
-import React, { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import React, { useRef, useState } from "react";
+import { Sparkles, useGLTF } from "@react-three/drei";
 import { useInteraction } from "@react-three/xr";
 
 export function MRIMachine(props) {
   const { nodes, materials } = useGLTF(
     "/models/mri/mri-machine-transformed.glb"
   );
-  const mriSound = new Audio("/sounds/sfx/mri.mp3");
-  const mriMachine = useRef();
 
-  // Pass ref directly to useInteraction, not mriMachine.current
-  useInteraction(mriMachine, "onSqueeze", (event) => {
-    if (event.inputSource.handedness === "right") return; // Adjusted for correct event object access
+  // INTERACTION
+  const mriRef = useRef();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
+  interactionSound.volume = 0.5;
+
+  const mriSound = new Audio("/sounds/sfx/mri.mp3");
+
+  const handleHover = (hovering) => {
+    setIsHovered(hovering);
+    if (hovering) {
+      interactionSound.play();
+    }
+  };
+
+  const togglePlay = () => {
     if (mriSound.paused) {
       mriSound.play();
+      setIsPlaying(true);
     } else {
       mriSound.pause();
+      setIsPlaying(false);
     }
+  };
+
+  useInteraction(mriRef, "onHover", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    handleHover(true);
+  });
+  useInteraction(mriRef, "onBlur", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    handleHover(false);
   });
 
-  useInteraction(mriMachine, "onHover", () => {
-    // Your hover logic here
-  });
-
-  useInteraction(mriMachine, "onBlur", () => {
-    // Your blur logic here, if necessary
+  useInteraction(mriRef, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    togglePlay();
   });
 
   return (
-    <group ref={mriMachine} {...props} dispose={null}>
+    <group ref={mriRef} {...props} dispose={null}>
       <mesh
         geometry={nodes.Cube046_Cube054_None_0.geometry}
         material={materials.None}
       />
+      {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
     </group>
   );
 }
