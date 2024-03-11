@@ -84,18 +84,18 @@ export function Beatrizz(props) {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     if (dialoguePlaying) return;
 
-    // Face the camera
-    // Calculate direction vector from character to camera
-    const characterPosition = beatrizz.current.position.clone();
-    const cameraPosition = player.children[0].position.clone();
-    const direction = cameraPosition.sub(characterPosition).normalize();
-    // Calculate target quaternion for slerp rotation
-    const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
-      new THREE.Vector3(0, 1, 0),
-      direction
-    );
-    // Apply slerp rotation
-    beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
+    // // Face the camera
+    // // Calculate direction vector from character to camera
+    // const characterPosition = beatrizz.current.position.clone();
+    // const cameraPosition = player.children[0].position.clone();
+    // const direction = cameraPosition.sub(characterPosition).normalize();
+    // // Calculate target quaternion for slerp rotation
+    // const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
+    //   new THREE.Vector3(0, 1, 0),
+    //   direction
+    // );
+    // // Apply slerp rotation
+    // beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
 
     // beatrizz.current.lookAt(player.children[0].position);
 
