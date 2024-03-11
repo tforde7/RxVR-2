@@ -11,6 +11,7 @@ import { Beatrizz } from "./Tour/Beatrizz";
 import { MRITV } from "./MRI/MRITV";
 import { XRayTV } from "./XRay/XRayTV";
 import { Roof } from "./Roof";
+import { BuildingsCombined2 } from "./Buildings-combined-2";
 
 const World = () => {
   const { cameraTarget, orbitControlsEnabled } = useControls({
@@ -60,7 +61,8 @@ const World = () => {
         <Outside />
         <LectureTheatre />
         <Lobby />
-        <BuildingsCombined />
+        {/* <BuildingsCombined /> */}
+        <BuildingsCombined2 />
         <Beatrizz />
         <MRITV />
         <XRayTV />
