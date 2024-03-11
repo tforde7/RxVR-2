@@ -41,7 +41,7 @@ export default function RadiographerM() {
     }
   }, [idleAnimation]);
 
-  const audio = new Audio("/sounds/seahorse-nurse/seahorse-nurse.mp3");
+  const audio = new Audio("/sounds/radiographer-xray/radiographer-xray.mp3");
 
   const { player } = useXR();
 
