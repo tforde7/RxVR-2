@@ -1,6 +1,6 @@
 import { Sparkles, useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useInteraction } from "@react-three/xr";
 
@@ -10,6 +10,19 @@ export default function Receptionist() {
   );
 
   const receptionistRef = useRef();
+
+  const [isHovered, setIsHovered] = useState(false); // Track hover state
+
+  // Hover interaction handler
+  const handleHover = (hovering) => {
+    setIsHovered(hovering);
+    if (hovering) {
+      interactionSound.play();
+    }
+  };
+
+  useInteraction(receptionistRef, "onHover", () => handleHover(true));
+  useInteraction(receptionistRef, "onBlur", () => handleHover(false));
 
   let dialoguePlaying = false;
 
@@ -60,7 +73,9 @@ export default function Receptionist() {
         <RigidBody colliders="hull" type="fixed">
           <primitive ref={receptionistRef} object={scene} scale={scale} />
         </RigidBody>
-        <Sparkles color={"yellow"} size={3} />
+        {isHovered && (
+          <Sparkles color={"yellow"} size={3} position={[0, 2, 0]} />
+        )}
       </group>
     </>
   );
