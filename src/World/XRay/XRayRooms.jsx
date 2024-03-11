@@ -43,14 +43,14 @@ const XRayRooms = (props) => {
         </group>
         <group>
           <DoctorTable
-            position={[128, 0.55, -7.7]}
+            position={[128, 0.65, -7.7]}
             rotation={[-Math.PI / 2, 0, 0.28]}
             scale={0.07}
           />
         </group>
         <group>
-          <CoatRack position={[125, 0, -6]} rotation={[0, 0, 0]} scale={2} />
-          <CoatRack position={[123, 0, -10]} rotation={[0, 0, 0]} scale={2} />
+          <CoatRack position={[125, 0.1, -6]} rotation={[0, 0, 0]} scale={2} />
+          <CoatRack position={[123, 0.1, -10]} rotation={[0, 0, 0]} scale={2} />
         </group>
         <group>
           <Mirror

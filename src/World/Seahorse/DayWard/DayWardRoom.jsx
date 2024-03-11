@@ -15,44 +15,44 @@ const DayWardRoom = (props) => {
       <group {...props}>
         <group>
           <Bed
-            position={[54.2, -0.01, -62.45]}
+            position={[54.2, -0.01, -62.25]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[54.9, -0.01, -60.3]}
+            position={[54.9, -0.01, -60.1]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[55.6, -0.01, -58]}
+            position={[55.6, -0.01, -57.7]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[56.3, -0.01, -55.7]}
+            position={[56.3, -0.01, -55.5]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[57, -0.01, -53.3]}
+            position={[57, -0.01, -53.2]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[57.7, -0.01, -50.9]}
+            position={[57.7, -0.01, -50.8]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[58.4, -0.01, -48.5]}
+            position={[58.4, -0.01, -48.6]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
           <Bed
-            position={[59.1, -0.01, -46.1]}
+            position={[59.1, -0.01, -46.4]}
             rotation={[0, -2.88, 0]}
-            scale={3}
+            scale={3.5}
           />
         </group>
         <group>
