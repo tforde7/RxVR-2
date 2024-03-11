@@ -45,9 +45,9 @@ const World = () => {
 
   useEffect(() => {
     if (!isPresenting) {
-      player.position.set(0, 1.6, 0);
+      player.position.set(15, 1.6, 0);
     } else {
-      player.position.set(0, 0, 0);
+      player.position.set(15, 0, 0);
     }
   }, [isPresenting]);
   return (
