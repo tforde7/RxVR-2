@@ -37,6 +37,7 @@ const DIALOGUE = [
   { seahorse_3: new Audio("/sounds/beatrizz/beatrizz-seahorse-3.mp3") },
   { xray: new Audio("/sounds/beatrizz/beatrizz-xray.mp3") },
   { mri: new Audio("/sounds/beatrizz/beatrizz-mri.mp3") },
+  { end: new Audio("/sounds/beatrizz/beatrizz-end-tour.mp3") },
 ];
 
 const pathfinding = new Pathfinding();
@@ -166,38 +167,40 @@ export function Beatrizz(props) {
     // beatrizz.current.lookAt(player.position);
 
     // Play the next dialogue
-    const currentDialogueObject = DIALOGUE.shift();
+    const currentDialogueObject =
+      DIALOGUE.length > 1 ? DIALOGUE.shift() : DIALOGUE[0];
     if (currentDialogueObject) {
       const currentDialogue = Object.values(currentDialogueObject)[0];
 
       currentDialogue.play();
 
-      // Determine movement based on dialogue played
-      const dialogueKey = Object.keys(currentDialogueObject)[0];
-      switch (dialogueKey) {
-        case "intro_2":
-          // Move Beatrizz to "reception" position
-          createNavpath(POSITIONS.reception);
-          break;
-        case "reception_2":
-          createNavpath(POSITIONS.seahorse_1);
-          break;
-        case "seahorse_1":
-          createNavpath(POSITIONS.seahorse_2);
-          break;
-        case "seahorse_2":
-          createNavpath(POSITIONS.seahorse_3);
-          break;
-        case "seahorse_3":
-          createNavpath(POSITIONS.xray);
-          break;
-        case "xray":
-          createNavpath(POSITIONS.mri);
-          break;
-        default:
-          // end of tour audio
-          break;
-      }
+      currentDialogue.onended = () => {
+        // Determine movement based on dialogue played
+        const dialogueKey = Object.keys(currentDialogueObject)[0];
+        switch (dialogueKey) {
+          case "intro_2":
+            // Move Beatrizz to "reception" position
+            createNavpath(POSITIONS.reception);
+            break;
+          case "reception_2":
+            createNavpath(POSITIONS.seahorse_1);
+            break;
+          case "seahorse_1":
+            createNavpath(POSITIONS.seahorse_2);
+            break;
+          case "seahorse_2":
+            createNavpath(POSITIONS.seahorse_3);
+            break;
+          case "seahorse_3":
+            createNavpath(POSITIONS.xray);
+            break;
+          case "xray":
+            createNavpath(POSITIONS.mri);
+            break;
+          default:
+            break;
+        }
+      };
     }
   });
 
@@ -221,7 +224,7 @@ export function Beatrizz(props) {
             // floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
             // floatingRange={[1, 2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
           >
-            <group {...props} dispose={null} scale={0.5}>
+            <group {...props} dispose={null} scale={0.25}>
               <group name="Root_Scene">
                 <group name="RootNode">
                   <group
