@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Sparkles, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useControls } from "leva";
 import { useInteraction } from "@react-three/xr";
@@ -8,8 +8,42 @@ export function XRayTV(props) {
   const { nodes, materials } = useGLTF("/models/tv/tv.glb");
 
   const [videoTexture, setVideoTexture] = useState(null);
+
+  // INTERACTION
+
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef();
+  const tvRef = useRef();
+  const [isHovered, setIsHovered] = useState(false); // Track hover state
+
+  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
+  interactionSound.volume = 0.5;
+
+  const handleHover = (hovering) => {
+    setIsHovered(hovering);
+    if (hovering) {
+      interactionSound.play();
+    }
+  };
+
+  const togglePlay = () => {
+    const videoElement = videoRef.current;
+    if (videoElement.paused) {
+      videoElement.play();
+      setIsPlaying(true);
+    } else {
+      videoElement.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  useInteraction(tvRef, "onHover", () => handleHover(true));
+  useInteraction(tvRef, "onBlur", () => handleHover(false));
+
+  useInteraction(tvRef, "onSelect", (interactionEvent) => {
+    if (interactionEvent.target.inputSource.handedness === "right") return;
+    togglePlay();
+  });
 
   useEffect(() => {
     const videoElement = document.createElement("video");
@@ -28,17 +62,6 @@ export function XRayTV(props) {
     };
   }, []);
 
-  const togglePlay = () => {
-    const videoElement = videoRef.current;
-    if (videoElement.paused) {
-      videoElement.play();
-      setIsPlaying(true);
-    } else {
-      videoElement.pause();
-      setIsPlaying(false);
-    }
-  };
-
   const { position, rotation } = useControls("XRay TV", {
     position: {
       value: {
@@ -54,24 +77,18 @@ export function XRayTV(props) {
     },
   });
 
-  const tv = useRef();
-  useInteraction(tv, "onSqueeze", (interactionEvent) => {
-    if (interactionEvent.controller.inputSource.handedness === "left") {
-      togglePlay();
-    }
-  });
-
   if (!videoTexture) return null;
 
   return (
     <group
+      ref={tvRef}
       {...props}
       dispose={null}
       position={[position.x, position.y, position.z]}
       rotation-y={rotation}
     >
+      {isHovered && <Sparkles color={"yellow"} size={1} position={[0, 0, 0]} />}
       <mesh
-        ref={tv}
         geometry={nodes.Tv1.geometry}
         material={materials.Tv1}
         rotation={[-Math.PI / 2, 0, 0]}
