@@ -15,6 +15,10 @@ export default function Receptionist() {
   const [dialoguePlaying, setDialoguePlaying] = useState(false); // Track dialogue state
 
   // Hover interaction handler
+
+  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
+  interactionSound.volume = 0.5;
+
   const handleHover = (hovering) => {
     setIsHovered(hovering);
     if (hovering) {
@@ -45,9 +49,6 @@ export default function Receptionist() {
   const receptionistHello = new Audio(
     "/sounds/receptionist-main/receptionist-main-hello.mp3"
   );
-
-  const interactionSound = new Audio("/sounds/sfx/pop.mp3");
-  interactionSound.volume = 0.5;
 
   useInteraction(receptionistRef, "onHover", (interactionEvent) => {
     if (interactionEvent.target.inputSource.handedness === "right") return;
