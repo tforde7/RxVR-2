@@ -84,7 +84,20 @@ export function Beatrizz(props) {
     if (interactionEvent.target.inputSource.handedness === "right") return;
     if (dialoguePlaying) return;
 
-    beatrizz.current.lookAt(player.children[0].position);
+    // Face the camera
+    // Calculate direction vector from character to camera
+    const characterPosition = beatrizz.current.position.clone();
+    const cameraPosition = player.children[0].position.clone();
+    const direction = cameraPosition.sub(characterPosition).normalize();
+    // Calculate target quaternion for slerp rotation
+    const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0),
+      direction
+    );
+    // Apply slerp rotation
+    beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
+
+    // beatrizz.current.lookAt(player.children[0].position);
 
     // Play the next dialogue
     if (DIALOGUE.length === 0) return;
@@ -221,64 +234,6 @@ export function Beatrizz(props) {
 
   useFrame((state, delta) => {
     move(delta);
-  });
-
-  useInteraction(beatrizz, "onSelect", (interactionEvent) => {
-    if (interactionEvent.target.inputSource.handedness === "right") return;
-    if (dialoguePlaying) return;
-
-    // Face the camera
-    // Calculate direction vector from character to camera
-    const characterPosition = beatrizz.current.position.clone();
-    const cameraPosition = player.children[0].position.clone();
-    const direction = cameraPosition.sub(characterPosition).normalize();
-    // Calculate target quaternion for slerp rotation
-    const targetQuaternion = new THREE.Quaternion().setFromUnitVectors(
-      new THREE.Vector3(0, 0, 1),
-      direction
-    );
-    // Apply slerp rotation
-    beatrizz.current.quaternion.slerp(targetQuaternion, 0.1);
-
-    // beatrizz.current.lookAt(player.children[0].position);
-
-    // Play the next dialogue
-    if (DIALOGUE.length === 0) return;
-    const currentDialogueObject = DIALOGUE.shift();
-    const currentDialogue = Object.values(currentDialogueObject)[0];
-
-    currentDialogue.play();
-    setDialoguePlaying(true);
-
-    currentDialogue.onended = () => {
-      // Determine movement based on dialogue played
-      const dialogueKey = Object.keys(currentDialogueObject)[0];
-      switch (dialogueKey) {
-        case "intro_2":
-          // Move Beatrizz to "reception" position
-          createNavpath(POSITIONS.reception);
-          break;
-        case "reception_2":
-          createNavpath(POSITIONS.seahorse_1);
-          break;
-        case "seahorse_1":
-          createNavpath(POSITIONS.seahorse_2);
-          break;
-        case "seahorse_2":
-          createNavpath(POSITIONS.seahorse_3);
-          break;
-        case "seahorse_3":
-          createNavpath(POSITIONS.xray);
-          break;
-        case "xray":
-          createNavpath(POSITIONS.mri);
-          break;
-        default:
-          break;
-      }
-
-      setDialoguePlaying(false);
-    };
   });
 
   return (
