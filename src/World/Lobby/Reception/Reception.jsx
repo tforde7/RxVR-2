@@ -12,6 +12,16 @@ import ConsultantExamRoom from "../../ConsultingRooms/ConsultingExamRoom";
 import XRayRooms from "../../XRay/XRayRooms";
 import DayWardRoom from "../../Seahorse/DayWard/DayWardRoom";
 import MRIRoom from "../../MRI/MRIRooms";
+import RadiologistX from "./RadiologistX";
+import RadiographerX from "./RadiographerX";
+import RadiographerM from "./RadiographerM";
+import RadiologistM from "./RadiologistM";
+import RadiologistM1 from "./RadiologistM1";
+import RadiographerM1 from "./RadiographerM1";
+import ReceptionistM1 from "./ReceptionistM1";
+import ReceptionistX from "./ReceptionistX";
+import Worker1 from "./SeahorseWorker1";
+import Worker2 from "./SeahorseWorker2";
 
 const Reception = () => {
   const { waitingArea1Position, waitingArea1Rotation } = useControls(
@@ -63,6 +73,17 @@ const Reception = () => {
       <XRayRooms />
       <DayWardRoom />
       <MRIRoom />
+      <RadiologistX />
+      <RadiographerX />
+      <RadiographerM />
+      <RadiologistM />
+      <RadiologistM1 />
+      <RadiographerM1 />
+      <ReceptionistM1 />
+      <ReceptionistX />
+      <Worker1 />
+      <Worker2 />
+
       <WaitingArea1
         position={[
           waitingArea1Position.x,
