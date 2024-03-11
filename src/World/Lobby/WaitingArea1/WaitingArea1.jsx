@@ -1,3 +1,4 @@
+import { PositionalAudio } from "@react-three/drei";
 import { WaitingChairs } from "../Reception/WaitingChairs";
 
 const WaitingArea1 = (props) => {
@@ -5,6 +6,11 @@ const WaitingArea1 = (props) => {
     <>
       <group {...props}>
         <group>
+          <PositionalAudio
+            url="/sounds/sfx/ambience.mp3"
+            distance={3}
+            loop
+          ></PositionalAudio>
           <WaitingChairs />
           <WaitingChairs position={[0, 0, 2]} />
           <WaitingChairs position={[0, 0, 4]} />
