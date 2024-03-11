@@ -7,8 +7,6 @@ import { useInteraction, useXR } from "@react-three/xr";
 export default function RadiographerX() {
   const worker = useGLTF("/models/npcs/Low Poly Men/Man.glb");
 
-  console.log(worker);
-
   const workerRef = useRef();
 
   const [isHovered, setIsHovered] = useState(false); // Track hover state

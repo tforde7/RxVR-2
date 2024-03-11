@@ -6,7 +6,6 @@ import { useInteraction, useXR } from "@react-three/xr";
 
 export default function Worker1() {
   const worker = useGLTF("/models/npcs/Low Poly Women/Woman in Tank Top.glb");
-  console.log(worker);
 
   const workerRef = useRef();
 

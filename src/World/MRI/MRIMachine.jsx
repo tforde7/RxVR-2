@@ -80,7 +80,6 @@ export function MRIMachine(props) {
   };
 
   const togglePlay = () => {
-    console.log(isPlaying);
     if (isPlaying) {
       mriSound.pause();
     } else {
