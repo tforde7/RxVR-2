@@ -96,7 +96,7 @@ export function BuildingsCombined2(props) {
           instanceMatrix={nodes.Windows_Sill.instanceMatrix}
         />
         <instancedMesh
-          args={[nodes.Handle078.geometry, materials.PaletteMaterial001, 26]}
+          args={[nodes.Handle078.geometry, materials.PaletteMaterial001, 23]}
           instanceMatrix={nodes.Handle078.instanceMatrix}
         />
         <instancedMesh
@@ -186,30 +186,6 @@ export function BuildingsCombined2(props) {
             18,
           ]}
           instanceMatrix={nodes.Handle_Back109.instanceMatrix}
-        />
-        <instancedMesh
-          args={[nodes.Door063.geometry, materials.PaletteMaterial001, 9]}
-          instanceMatrix={nodes.Door063.instanceMatrix}
-        />
-        <instancedMesh
-          args={[
-            nodes.Handle_Back063.geometry,
-            materials.PaletteMaterial001,
-            17,
-          ]}
-          instanceMatrix={nodes.Handle_Back063.instanceMatrix}
-        />
-        <instancedMesh
-          args={[
-            nodes.Handle_Front105.geometry,
-            materials.PaletteMaterial001,
-            15,
-          ]}
-          instanceMatrix={nodes.Handle_Front105.instanceMatrix}
-        />
-        <instancedMesh
-          args={[nodes.DoorFrane089.geometry, materials.PaletteMaterial001, 8]}
-          instanceMatrix={nodes.DoorFrane089.instanceMatrix}
         />
         <instancedMesh
           args={[nodes.Window.geometry, materials.PaletteMaterial001, 6]}
