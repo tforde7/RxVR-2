@@ -4,7 +4,7 @@ import { Controllers, VRButton, XR } from "@react-three/xr";
 import { Canvas } from "@react-three/fiber";
 import World from "./World/World";
 import { Perf } from "r3f-perf";
-import { Environment } from "@react-three/drei";
+import { Environment, Loader } from "@react-three/drei";
 
 function App() {
   return (
@@ -14,11 +14,13 @@ function App() {
         <Environment preset="city" />
         <XR>
           <ambientLight />
-          <Perf position="top-left" />
+          {/* <Perf position="top-left" /> */}
           <Controllers />
           <World />
         </XR>
       </Canvas>
+      <Loader />
+      <Leva hidden />
     </>
   );
 }
